@@ -1,5 +1,5 @@
 
-[![GitHub Actions](https://github.com/a-sera-org/asera-api/workflows/CI/badge.svg)](https://github.com/a-sera-org/asera-api/actions?workflow=a-sera-ci)
+[![GitHub Actions](https://github.com/a-sera-org/asera-api/workflows/a-sera-ci/badge.svg)](https://github.com/a-sera-org/asera-api/actions?workflow=a-sera-ci)
 
 # ASERA API
 
