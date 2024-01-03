@@ -1,3 +1,6 @@
+
+[![GitHub Actions](https://github.com/a-sera-org/asera-api/workflows/CI/badge.svg)](https://github.com/a-sera-org/asera-api/actions?workflow=CI)
+
 # ASERA API
 
 ## Requirements :

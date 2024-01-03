@@ -1,9 +1,9 @@
-name: CI
+name: a-sera-ci
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request: ~
   workflow_dispatch: ~
 
@@ -41,7 +41,7 @@ jobs:
 
       -
         name: Generate JWT key
-        run: docker compose exec -T php bin/console lexik:jwt:generate-keypair
+        run: docker compose exec -T php bin/console lexik:jwt:generate-keypair --overwrite
 
       -
         name: Check HTTP reachability
