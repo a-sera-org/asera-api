@@ -57,14 +57,16 @@ jobs:
 
       -
         name: Update database schema
-        run: docker compose exec -T php bin/console -e test doctrine:schema:update --force
+        run: |
+          ls
+          docker compose exec -T php bin/console -e test doctrine:schema:update --force
 
       -
         name: Copy file for phpunit
         uses: canastro/copy-file-action@master
         with:
-          source: tests/Api/fixtures/template/img.png
-          target: tests/Api/fixtures/Media/img.png
+          source: "tests/Api/fixtures/template/img.png"
+          target: "tests/Api/fixtures/Media/img.png"
 
       -
         name: Run phpunit
