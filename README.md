@@ -26,8 +26,13 @@
 ## Post-install
 ```
     - Verify docker container health
-    - Verify HTTP accessibility
+    - Verify HTTP accessibility, go to: https://localhost
     - Try running unit test
+```
+
+## Before push
+```
+    - Make sure that your code follow the PSR rules by launching : ./vendor/bin/php-cs-fixer fix
 ```
 
 
