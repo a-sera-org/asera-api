@@ -59,7 +59,7 @@ jobs:
         name: Update database schema
         run: |
           docker compose exec -T php bin/console -e test doctrine:schema:update --force
-          ls tests/
+          ls tests/Api/fixtures/
 
       -
         name: Run phpunit
