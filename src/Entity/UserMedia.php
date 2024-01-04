@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Controller\IgnoredController;
@@ -17,7 +16,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: UserMediaRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(controller: IgnoredController::class)
+        new GetCollection(controller: IgnoredController::class),
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
@@ -99,12 +98,12 @@ class UserMedia
     public function setOwner(?User $owner): static
     {
         // unset the owning side of the relation if necessary
-        if ($owner === null && $this->owner !== null) {
+        if (null === $owner && null !== $this->owner) {
             $this->owner->setMedia(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($owner !== null && $owner->getMedia() !== $this) {
+        if (null !== $owner && $owner->getMedia() !== $this) {
             $owner->setMedia($this);
         }
 

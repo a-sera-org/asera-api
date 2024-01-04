@@ -8,17 +8,19 @@
 namespace App\Factory;
 
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\OpenApi\OpenApi;
 use ApiPlatform\OpenApi\Model;
+use ApiPlatform\OpenApi\OpenApi;
 
 /**
- * Class IgnoredRouteFactory
+ * Class IgnoredRouteFactory.
  *
  * Handle routing personalizing
  */
 readonly class IgnoredRouteFactory implements OpenApiFactoryInterface
 {
-    public function __construct(private OpenApiFactoryInterface $decorated){}
+    public function __construct(private OpenApiFactoryInterface $decorated)
+    {
+    }
 
     public function __invoke(array $context = []): OpenApi
     {
@@ -29,7 +31,7 @@ readonly class IgnoredRouteFactory implements OpenApiFactoryInterface
         $filteredPaths = new Model\Paths();
         foreach ($paths as $path => $pathItem) {
             // Here you go with our ignored route
-            if ($path === '/user_medias') {
+            if ('/user_medias' === $path) {
                 continue;
             }
             $filteredPaths->addPath($path, $pathItem);

@@ -10,7 +10,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * Class IgnoredController
+ * Class IgnoredController.
  */
 class IgnoredController extends AbstractController
 {

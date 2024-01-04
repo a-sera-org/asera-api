@@ -7,14 +7,13 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
@@ -25,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(),
         new GetCollection(),
-        new Delete()
+        new Delete(),
     ],
     normalizationContext: ['groups' => ['user:read', 'default', 'company:read', 'job:read']],
     denormalizationContext: ['groups' => ['user:write', 'contact:write', 'default', 'company:write']],
@@ -81,7 +80,7 @@ class Contact
 
     /**
      * When this object is called to be a string, force to return email
-     * Do not give an error
+     * Do not give an error.
      */
     public function __toString(): string
     {

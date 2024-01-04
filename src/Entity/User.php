@@ -14,10 +14,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -41,7 +41,7 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
     mercure: true,
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
-#[ORM\Table(name:"`user`")]
+#[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: 'username', message: 'There is already an account with this username')]
 #[Delete(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user")]
 #[Put(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user")]
@@ -92,7 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\PasswordStrength([
         'minScore' => PasswordStrength::STRENGTH_WEAK,
-        'message' => 'Your password is too easy to guess. Asera\'s security policy requires to use a stronger password.'
+        'message' => 'Your password is too easy to guess. Asera\'s security policy requires to use a stronger password.',
     ])]
     #[Groups(['user:write'])]
     private ?string $plainPassword = null;

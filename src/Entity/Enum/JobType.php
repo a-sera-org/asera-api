@@ -61,6 +61,6 @@ enum JobType: int
     {
         $name = $uriVariables['id'] ?? null;
 
-        return constant(self::class . "::$name");
+        return constant(self::class."::$name");
     }
 }

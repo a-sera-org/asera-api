@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         provider: WorkType::class.'::getCase'
     ),
 ]
-enum WorkType : int
+enum WorkType: int
 {
     case HYBRIDE = 1;
     case ONSITE = 2;
@@ -56,11 +56,10 @@ enum WorkType : int
         return self::cases();
     }
 
-
     public static function getCase(Operation $operation, array $uriVariables)
     {
         $name = $uriVariables['id'] ?? null;
 
-        return constant(self::class . "::$name");
+        return constant(self::class."::$name");
     }
 }

@@ -9,12 +9,9 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model;
 use App\Controller\CreateMediaObjectAction;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,17 +40,17 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
                                 'properties' => [
                                     'file' => [
                                         'type' => 'string',
-                                        'format' => 'binary'
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'format' => 'binary',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ])
                 )
             ),
             validationContext: ['groups' => ['Default', 'media_object_create']],
             deserialize: false
-        )
+        ),
     ],
     normalizationContext: ['groups' => ['media_object:read', 'company:read', 'user:read']]
 )]
@@ -69,7 +66,7 @@ class MediaObject
     #[Groups(['media_object:read', 'company:read', 'user:read'])]
     public ?string $contentUrl = null;
 
-    #[Vich\UploadableField(mapping: "media_object", fileNameProperty: "filePath")]
+    #[Vich\UploadableField(mapping: 'media_object', fileNameProperty: 'filePath')]
     #[Assert\NotNull(groups: ['media_object_create'])]
     public ?File $file = null;
 

@@ -3,6 +3,7 @@
  * @author Bocasay jul
  * Date : 30/12/2023
  */
+
 namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
@@ -11,7 +12,7 @@ use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Class UserPasswordHasher
+ * Class UserPasswordHasher.
  *
  * Hash the user password, before persist the user
  */
@@ -22,12 +23,7 @@ final readonly class UserPasswordHasher implements ProcessorInterface
     }
 
     /**
-     * @param User      $data
-     * @param Operation $operation
-     * @param array     $uriVariables
-     * @param array     $context
-     *
-     * @return mixed
+     * @param User $data
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
