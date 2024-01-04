@@ -56,16 +56,24 @@ jobs:
         run: docker compose exec -T php bin/console -e test doctrine:database:create
 
       -
-        name: Generate migrations
+        name: Update database schema
         run: docker compose exec -T php bin/console -e test doctrine:schema:update --force
 
       -
-        name: Run PHPUnit
+        name: Copy file for phpunit
+        uses: canastro/copy-file-action@master
+        with:
+          source: tests/Api/fixtures/template/img.png
+          target: tests/Api/fixtures/Media/img.png
+
+      -
+        name: Run phpunit
         run: docker compose exec -T php bin/phpunit
 
       -
         name: Doctrine Schema Validator
         run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+
   lint:
     name: Docker Lint
     runs-on: ubuntu-latest

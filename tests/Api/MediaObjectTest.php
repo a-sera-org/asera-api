@@ -34,7 +34,6 @@ class MediaObjectTest extends ApiTestCase
      */
     public function testCreateMediaObject(): void
     {
-        copy($_SERVER['DOCUMENT_ROOT'].'fixtures/template/img.png', $_SERVER['DOCUMENT_ROOT'].'fixtures/Media/img.png');
         $file = new UploadedFile($_SERVER['DOCUMENT_ROOT'].'fixtures/Media/img.png', 'image.png');
         $client = self::createClient();
 
