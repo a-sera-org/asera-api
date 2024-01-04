@@ -57,10 +57,12 @@ jobs:
 
       -
         name: Update database schema
-        run: |
-          docker compose exec -T php bin/console -e test doctrine:schema:update --force
-          ls tests/Api/fixtures/
+        run: docker compose exec -T php bin/console -e test doctrine:schema:update --force
 
+      -
+        name: Copy file for phpunit
+        run: |
+          cp tests/Api/fixtures/template/img.png tests/Api/fixtures/Media/img.png
       -
         name: Run phpunit
         run: docker compose exec -T php bin/phpunit
