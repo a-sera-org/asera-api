@@ -32,6 +32,6 @@ class ContactsTest extends ApiTestCase
             ],
         ]);
 
-        $this->assertResponseStatusCodeSame(405);
+        $this->assertResponseStatusCodeSame(401);
     }
 }
