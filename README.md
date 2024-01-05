@@ -19,30 +19,24 @@ Le mot "Asera" puise ses racines dans trois termes malgaches :
     - Symfony/api-platform/Docker base knowledge
 ```
 
-## Pre-install
-```
-    - Verify compose file, the container name etc, you can personalise yours
-    - Verify all secret key (database, mercure ... ) in .env
-    - Generate JWT Token by : bin/console lexik:jwt:generate-keypair
-```
-
 ## Installation :
 ```
     - clone this repository
+    - Copy .env to .env.local, change variables in if needle
     - run : docker compose build
     - run : docker compose up --wait
 ```
 
 ## Post-install
 ```
-    - Verify docker container health
+    - Verify docker container health in terminal, if there was an error or container is unhealthy, run compose by using : docker compose up
     - Verify HTTP accessibility, go to: https://localhost
-    - Try running unit test
 ```
 
 ## Before push
 ```
     - Make sure that your code follow the PSR rules by launching : ./vendor/bin/php-cs-fixer fix
+    - Make sure you write unit test and it's green by bin/phpunit.
 ```
 
 
