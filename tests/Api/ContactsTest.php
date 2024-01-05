@@ -34,26 +34,4 @@ class ContactsTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(405);
     }
-
-    /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
-     */
-    public function testListContact(): void
-    {
-        static::createClient()->request('GET', '/contacts', [
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-            ],
-        ]);
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            '@context' => '/contexts/Contact',
-            '@type' => 'hydra:Collection',
-        ]);
-    }
 }

@@ -20,7 +20,7 @@ services:
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
       TRUSTED_HOSTS: ^(api.a-sera.org|a-sera.org|localhost|php)$$
       DATABASE_URL: postgresql://${POSTGRES_USER:-aseraadmin}:${POSTGRES_PASSWORD:-aserapass}@database:5432/${POSTGRES_DB:-asera-db}?serverVersion=${POSTGRES_VERSION:-15}&charset=${POSTGRES_CHARSET:-utf8}
-      MERCURE_URL: ${CADDY_MERCURE_URL:-http://php/.well-known/mercure}
+      MERCURE_URL: ${CADDY_MERCURE_URL:-https://localhost:8080/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost:8080}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
     volumes:
