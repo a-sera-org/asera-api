@@ -11,7 +11,7 @@
 Le mot "Asera" puise ses racines dans trois termes malgaches : 
 - "Asa" (travail), "Serasera" (diversité)
 - "Asa" et "Sera"
-- Une adaptation du terme HR (Human resource) en Malagasy.
+- Une adaptation du terme HR (Human Resources) en Malagasy.
 
 ## Requirements :
 ```
