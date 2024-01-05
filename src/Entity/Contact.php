@@ -22,17 +22,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ApiResource(
-    operations: [
-        new Post(),
-        new Get(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
-        new GetCollection(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
-        new Delete(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
-        new Put(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
-        new Patch(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
-    ],
     normalizationContext: ['groups' => ['user:read', 'default', 'company:read', 'job:read']],
     denormalizationContext: ['groups' => ['user:write', 'contact:write', 'default', 'company:write']],
-    mercure: true
+    mercure: true,
+    security: "is_granted('IS_AUTHENTICATED_FULLY')"
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[UniqueEntity(
