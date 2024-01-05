@@ -25,7 +25,7 @@ class ContactsTest extends ApiTestCase
         static::createClient()->request('POST', '/contacts', [
             'json' => [
                 'email' => 'test@test.com',
-                'phone' => '054 767 89'
+                'phone' => '054 767 89',
             ],
             'headers' => [
                 'Content-Type' => 'application/ld+json',
@@ -53,7 +53,7 @@ class ContactsTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '@context' => '/contexts/Contact',
-            "@type"=> "hydra:Collection",
+            '@type' => 'hydra:Collection',
         ]);
     }
 }

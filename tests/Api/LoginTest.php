@@ -47,7 +47,7 @@ class LoginTest extends ApiTestCase
         $response = $client->request('POST', '/api/login_check', [
             'json' => [
                 'password' => '@theP*ss2023',
-                'username' => 'user@asera.com'
+                'username' => 'user@asera.com',
             ],
             'headers' => [
                 'Content-Type' => 'application/json',

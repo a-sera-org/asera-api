@@ -3,7 +3,6 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use App\Entity\User;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -31,7 +30,7 @@ class UsersTest extends ApiTestCase
             'json' => [
                 'lastname' => 'Kévin',
                 'username' => self::USERNAME,
-                'plainPassword' => self::PASSWORD
+                'plainPassword' => self::PASSWORD,
             ],
             'headers' => [
                 'Content-Type' => 'application/ld+json',
@@ -43,7 +42,7 @@ class UsersTest extends ApiTestCase
             '@context' => '/contexts/User',
             '@type' => 'User',
             'lastname' => 'Kévin',
-            'username' => self::USERNAME
+            'username' => self::USERNAME,
         ]);
     }
 
@@ -65,7 +64,7 @@ class UsersTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '@context' => '/contexts/User',
-            "@type"=> "hydra:Collection",
+            '@type' => 'hydra:Collection',
         ]);
     }
 }

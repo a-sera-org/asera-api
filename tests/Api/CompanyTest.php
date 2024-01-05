@@ -35,12 +35,12 @@ class CompanyTest extends ApiTestCase
                 'contacts' => [
                     [
                         'email' => 'test@company.com',
-                        'phone' => ['097 876 76', '097 876 78', '097 876 77',],
-                        'web' => 'company.com'
-                    ]
+                        'phone' => ['097 876 76', '097 876 78', '097 876 77'],
+                        'web' => 'company.com',
+                    ],
                 ],
                 'nif' => '34557 7889 9800',
-                'stat' => 'Madagascar'
+                'stat' => 'Madagascar',
             ],
             'headers' => [
                 'Content-Type' => 'application/ld+json',
@@ -66,16 +66,16 @@ class CompanyTest extends ApiTestCase
                 'contacts' => [
                     [
                         'email' => 'test@company.com',
-                        'phone' => ['097 876 76', '097 876 78', '097 876 77',],
-                        'web' => 'company.com'
-                    ]
+                        'phone' => ['097 876 76', '097 876 78', '097 876 77'],
+                        'web' => 'company.com',
+                    ],
                 ],
                 'nif' => '34557 7889 9800',
-                'stat' => 'Madagascar'
+                'stat' => 'Madagascar',
             ],
             'headers' => [
                 'Content-Type' => 'application/ld+json',
-                'Authorization' => sprintf('Bearer %s', $this->getToken())
+                'Authorization' => sprintf('Bearer %s', $this->getToken()),
             ],
         ]);
 
@@ -83,7 +83,6 @@ class CompanyTest extends ApiTestCase
     }
 
     /**
-     * @return string
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
@@ -97,7 +96,7 @@ class CompanyTest extends ApiTestCase
         $response = $client->request('POST', '/api/login_check', [
             'json' => [
                 'password' => '@theP*ss2023',
-                'username' => 'user@asera.com'
+                'username' => 'user@asera.com',
             ],
             'headers' => [
                 'Content-Type' => 'application/json',
