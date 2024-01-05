@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
@@ -24,16 +26,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource(
+    operations: [
+        new Delete(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Put(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Patch(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Get(),
+        new GetCollection(),
+    ],
     normalizationContext: ['groups' => ['company:read', 'job:read']],
     denormalizationContext: ['groups' => ['company:write']],
     mercure: true
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[UniqueEntity(fields: 'name', message: 'Name already in use')]
-#[Delete(security: "is_granted('ROLE_ADMIN')")]
-#[Post(security: "is_granted('IS_AUTHENTICATED_FULLY')")]
-#[Put(security: "is_granted('IS_AUTHENTICATED_FULLY')")]
-#[Patch(security: "is_granted('IS_AUTHENTICATED_FULLY')")]
 class Company
 {
     use SoftDeleteableEntity;
