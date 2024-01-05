@@ -79,10 +79,15 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Job::class)]
     private Collection $jobs;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'companies')]
+    #[Groups(['company:write', 'company:read'])]
+    private Collection $admins;
+
     public function __construct()
     {
         $this->contact = new ArrayCollection();
         $this->jobs = new ArrayCollection();
+        $this->admins = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -218,6 +223,30 @@ class Company
                 $job->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getAdmins(): Collection
+    {
+        return $this->admins;
+    }
+
+    public function addAdmin(User $admin): static
+    {
+        if (!$this->admins->contains($admin)) {
+            $this->admins->add($admin);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin(User $admin): static
+    {
+        $this->admins->removeElement($admin);
 
         return $this;
     }
