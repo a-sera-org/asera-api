@@ -49,7 +49,7 @@ jobs:
 
       -
         name: Check API reachability
-        run: curl -vk -o /dev/null https://localhost
+        run: curl -vk -o /dev/null https://localhost:8080
 
       -
         name: Create test database
