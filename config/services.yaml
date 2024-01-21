@@ -23,6 +23,10 @@ services:
         bind:
             $processor: '@api_platform.doctrine.orm.state.persist_processor'
 
+    App\Event\Listener\AuthenticationSuccessListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
     App\Factory\IgnoredRouteFactory:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@App\Factory\IgnoredRouteFactory.inner' ]
