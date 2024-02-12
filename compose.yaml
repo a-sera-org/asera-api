@@ -51,7 +51,9 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-aseraadmin}
     volumes:
       - db_data:/var/lib/postgresql/data
-      # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+    ports:
+      - "5432:5432"
+        # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data
 ###< doctrine/doctrine-bundle ###
 
