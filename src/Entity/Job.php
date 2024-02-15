@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Entity\Enum\JobCategory;
 use App\Entity\Enum\JobType;
 use App\Entity\Enum\WorkType;
 use App\Repository\JobRepository;
@@ -90,6 +91,11 @@ class Job
     #[Assert\Type(type: WorkType::class)]
     #[Groups(['job:read', 'job:write'])]
     private ?int $workType = 1;
+
+    #[ORM\Column]
+    #[Assert\Type(type: JobCategory::class)]
+    #[Groups(['job:read', 'job:write'])]
+    private ?int $jobCategory = 1;
 
     public function __construct()
     {
