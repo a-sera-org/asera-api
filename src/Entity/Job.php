@@ -226,4 +226,16 @@ class Job
 
         return $this;
     }
+
+    public function getJobCategory(): ?int
+    {
+        return $this->jobCategory;
+    }
+
+    public function setJobCategory(?int $jobCategory): static
+    {
+        $this->jobCategory = $jobCategory;
+
+        return $this;
+    }
 }
