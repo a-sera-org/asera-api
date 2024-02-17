@@ -11,4 +11,3 @@ require('./template/assets/js/settings.js');
 require('./template/assets/js/todolist.js');
 require('./template/assets/js/jquery.cookie.js');
 require('./template/assets/js/dashboard.js');
-require('./template/assets/js/proBanner.js');
