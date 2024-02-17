@@ -36,8 +36,8 @@ class CreateUserCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         if ($input->getOption('create')) {
-            $username = $io->askQuestion(new Question('Username :'));
-            $password = $io->askQuestion(new Question('Password :'));
+            $username = $io->askQuestion(new Question('Username '));
+            $password = $io->askQuestion(new Question('Password '));
             $isAdmin = $io->askQuestion(new Question('Is admin ?', '[yes]'));
 
             $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]) ?? new User();
