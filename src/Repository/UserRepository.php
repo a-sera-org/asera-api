@@ -6,8 +6,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Contact;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -58,5 +60,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->save($user, true);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function loadUserByEmailOrUsername(string $emailOrUsername)
+    {
+        $contact = $this->getEntityManager()->getRepository(Contact::class)->findOneBy(['email' => $emailOrUsername]);
+        if (!empty($contact)) {
+            return $this->createQueryBuilder('u')
+                ->where('u.username = :emailOrUsername')
+                ->orWhere('u.contact = :contact')
+                ->setParameters([
+                    'emailOrUsername' => $emailOrUsername,
+                    'contact' => $contact,
+                ])->getQuery()->getOneOrNullResult();
+        }
+
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :emailOrUsername')
+            ->setParameter('emailOrUsername', $emailOrUsername)->getQuery()->getOneOrNullResult();
     }
 }

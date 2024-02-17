@@ -39,8 +39,8 @@ class CreateUserCommand extends Command
             $password = $io->askQuestion(new Question('Password :'));
             $isAdmin = $io->askQuestion(new Question('Is admin ?', '[yes]'));
 
-            $user = new User();
-            $user->setUsername($username)->setLastname('test');
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]) ?? new User();
+            $user->setUsername($username)->setLastname('test_admin');
             $user->setPassword($this->passwordHasher->hashPassword($user, $password));
             $user->setRoles($isAdmin ? ['ROLE_ADMIN'] : ['ROLE_USER']);
 
