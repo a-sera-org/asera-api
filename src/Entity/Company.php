@@ -34,9 +34,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(),
         new GetCollection(),
     ],
+    routePrefix: '/api',
     normalizationContext: ['groups' => ['company:read', 'job:read']],
     denormalizationContext: ['groups' => ['company:write']],
-    mercure: true
+    mercure: false
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[UniqueEntity(fields: 'name', message: 'Name already in use')]

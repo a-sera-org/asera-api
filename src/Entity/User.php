@@ -29,25 +29,27 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
 #[ORM\Entity]
 #[ApiResource(
     operations: [
-        new GetCollection(),
+        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
         new Post(processor: UserPasswordHasher::class),
-        new Get(),
-        new Put(processor: UserPasswordHasher::class),
-        new Patch(processor: UserPasswordHasher::class),
-        new Delete(),
+        new Get(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user"),
+        new Put(
+            security: "is_granted('ROLE_ADMIN') or object.getOwner() == user",
+            processor: UserPasswordHasher::class
+        ),
+        new Patch(
+            security: "is_granted('ROLE_ADMIN') or object.getOwner() == user",
+            processor: UserPasswordHasher::class
+        ),
+        new Delete(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user"),
     ],
+    routePrefix: '/api',
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
-    mercure: true,
+    mercure: false,
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: 'username', message: 'There is already an account with this username')]
-#[Delete(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user")]
-#[Put(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user")]
-#[Patch(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user")]
-#[Get(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user")]
-#[GetCollection(security: "is_granted('ROLE_ADMIN')")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableEntity;

@@ -18,9 +18,10 @@ use Symfony\Component\Uid\Uuid;
     operations: [
         new GetCollection(controller: IgnoredController::class),
     ],
+    routePrefix: '/api',
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
-    mercure: true
+    mercure: false
 )]
 class UserMedia
 {

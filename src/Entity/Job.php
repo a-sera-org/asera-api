@@ -26,6 +26,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
+
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[ApiResource(
@@ -37,6 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(),
         new GetCollection(),
     ],
+    routePrefix: '/api',
     normalizationContext: ['groups' => ['job:read']],
     denormalizationContext: ['groups' => ['job:write']],
     mercure: true,
