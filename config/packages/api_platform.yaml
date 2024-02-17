@@ -1,4 +1,9 @@
 api_platform:
+    swagger:
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
     title: Hello API Platform
     version: 1.0.0
     # Mercure integration, remove if unwanted
