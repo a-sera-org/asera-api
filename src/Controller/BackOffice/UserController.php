@@ -28,7 +28,13 @@ class UserController extends AbstractController
         $query = $this->userRepository->findAllUsers();
         $paginator = $this->paginator->paginate($query, $request->query->getInt('page', 1));
 
-        return $this->render('backoffice/users/list_all_user.html.twig', ['paginator' => $paginator]);
+        return $this->render(
+            'backoffice/users/list_all_user.html.twig',
+            [
+                'paginator' => $paginator,
+                'menu_user' => true,
+            ]
+        );
     }
 
     #[Route('/update/{id}/statut', name: 'statut')]

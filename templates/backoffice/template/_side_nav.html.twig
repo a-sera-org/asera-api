@@ -1,16 +1,22 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-        <li class="nav-item">
+        <li class="nav-item {% if menu_dashboard is defined %} active {% endif %}">
             <a class="nav-link" href="{{ path('admin_dashboard') }}">
                 <i class="mdi mdi-grid-large menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
         <li class="nav-item nav-category">ADMINISTRATION</li>
-        <li class="nav-item">
+        <li class="nav-item {% if menu_user is defined %} active {% endif %}">
             <a class="nav-link" href="{{ path('admin_user_list') }}">
                 <i class="menu-icon mdi mdi-account"></i>
                 <span class="menu-title">Utilisateurs</span>
+            </a>
+        </li>
+        <li class="nav-item {% if menu_company is defined %} active {% endif %}">
+            <a class="nav-link" href="{{ path('admin_company_list') }}">
+                <i class="menu-icon mdi mdi-domain-plus"></i>
+                <span class="menu-title">Entreprises</span>
             </a>
         </li>
         <li class="nav-item nav-category">API</li>

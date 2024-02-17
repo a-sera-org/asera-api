@@ -49,6 +49,7 @@ class DashboardManager
             'companies_percent' => $percentCompanies,
             'boards_count' => $boardMembers,
             'boards_percent' => $percentBoards,
+            'menu_dashboard' => true,
         ];
     }
 }
