@@ -82,4 +82,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->where('u.username = :emailOrUsername')
             ->setParameter('emailOrUsername', $emailOrUsername)->getQuery()->getOneOrNullResult();
     }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function loadUserByRole(?string $role)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->andWhere('CONTAINS(TO_JSONB(u.roles), :role) = TRUE')
+            ->setParameter('role', '["'.$role.'"]')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
+    }
 }

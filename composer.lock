@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b94d091e4a5622cf13ce2a7e077a425",
+    "content-hash": "29151da1a3fe4379d089300da795f792",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2065,6 +2065,91 @@
                 }
             ],
             "time": "2023-12-14T15:58:11+00:00"
+        },
+        {
+            "name": "martin-georgiev/postgresql-for-doctrine",
+            "version": "v2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/martin-georgiev/postgresql-for-doctrine.git",
+                "reference": "f29f70cb0306dd8d103d5e262297c376d69621f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/martin-georgiev/postgresql-for-doctrine/zipball/f29f70cb0306dd8d103d5e262297c376d69621f6",
+                "reference": "f29f70cb0306dd8d103d5e262297c376d69621f6",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "~2.10||~3.0",
+                "ext-ctype": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^8.1"
+            },
+            "conflict": {
+                "doctrine/lexer": "<1.0||>=3.0",
+                "doctrine/orm": "<2.8||>=3.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^2.0",
+                "doctrine/lexer": "~1.0||~2.0",
+                "doctrine/orm": "~2.8||~3.0",
+                "ekino/phpstan-banned-code": "^1.0",
+                "friendsofphp/php-cs-fixer": "^3.48.0",
+                "php-coveralls/php-coveralls": "^2.7.0",
+                "phpstan/phpstan": "^1.10.57",
+                "phpstan/phpstan-phpunit": "^1.3.15",
+                "phpunit/phpunit": "^10.5.9",
+                "qossmic/deptrac-shim": "^1.0.2",
+                "rector/rector": "^0.19",
+                "symfony/cache": "^6.4||^7.0"
+            },
+            "suggest": {
+                "doctrine/orm": "~2.8||~3.0",
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MartinGeorgiev\\": "src/MartinGeorgiev/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Georgiev",
+                    "email": "martin.georgiev@gmail.com",
+                    "role": "author"
+                }
+            ],
+            "description": "Adds PostgreSQL enhancements to Doctrine. Provides support for JSON, JSONB and some array data types. Provides functions, operators and common expressions used when working with JSON data, arrays and features related to text search.",
+            "keywords": [
+                "array data types",
+                "dbal",
+                "doctrine",
+                "json",
+                "jsonb",
+                "martin georgiev",
+                "postgres",
+                "postgresql",
+                "text search",
+                "tsvector"
+            ],
+            "support": {
+                "issues": "https://github.com/martin-georgiev/postgresql-for-doctrine/issues",
+                "source": "https://github.com/martin-georgiev/postgresql-for-doctrine/tree/v2.3.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/martin-georgiev",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-01-29T18:29:18+00:00"
         },
         {
             "name": "monolog/monolog",

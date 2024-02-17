@@ -99,6 +99,9 @@ class Job
     #[Groups(['job:read', 'job:write'])]
     private ?int $jobCategory = 1;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isEnabled = true;
+
     public function __construct()
     {
         $this->candidates = new ArrayCollection();
@@ -237,6 +240,18 @@ class Job
     public function setJobCategory(?int $jobCategory): static
     {
         $this->jobCategory = $jobCategory;
+
+        return $this;
+    }
+
+    public function isIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(?bool $isEnabled): static
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }

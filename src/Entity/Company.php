@@ -89,6 +89,10 @@ class Company
     #[Groups(['company:write', 'company:read'])]
     private Collection $admins;
 
+    #[ORM\Column]
+    #[Groups(['company:write', 'company:read'])]
+    private ?bool $isEnabled = true;
+
     public function __construct()
     {
         $this->contact = new ArrayCollection();
@@ -253,6 +257,18 @@ class Company
     public function removeAdmin(User $admin): static
     {
         $this->admins->removeElement($admin);
+
+        return $this;
+    }
+
+    public function isIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): static
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }

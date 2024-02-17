@@ -28,6 +28,7 @@ class CreateUserCommand extends Command
     {
         $this
             ->addOption('create', null, InputOption::VALUE_NONE, 'Create user')
+            ->addOption('enable-all', null, InputOption::VALUE_NONE, 'Activé tous les utilisateurs')
         ;
     }
 
@@ -48,6 +49,16 @@ class CreateUserCommand extends Command
             $this->entityManager->flush();
 
             $io->success("User $username created successfully !");
+        }
+
+        if ($input->getOption('enable-all')) {
+            $users = $this->entityManager->getRepository(User::class)->findAll();
+            $progressBar = $io->createProgressBar(count($users));
+            foreach ($users as $user) {
+                $progressBar->advance();
+                $user->setIsEnabled(true);
+                $this->entityManager->flush();
+            }
         }
 
         return Command::SUCCESS;

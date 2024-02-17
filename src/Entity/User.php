@@ -123,6 +123,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['recruiter:write'])]
     private Collection $companies;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['user:read', 'user:write'])]
+    private ?bool $isEnabled = true;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -311,6 +315,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->companies->removeElement($company)) {
             $company->removeAdmin($this);
         }
+
+        return $this;
+    }
+
+    public function isIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(?bool $isEnabled): static
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }
