@@ -4,3 +4,20 @@ lexik_jwt_authentication:
     pass_phrase: '%env(JWT_PASSPHRASE)%'
     api_platform:
         check_path: /api/login_check
+
+    # token extraction settings
+    token_extractors:
+        # look for a token as Authorization Header
+        authorization_header:
+            enabled: true
+            prefix: Bearer
+            name: Authorization
+        # check token in a cookie
+        cookie:
+            enabled: false
+            name: BEARER
+
+        # check token in query string parameter
+        query_parameter:
+            enabled: false
+            name: bearer
