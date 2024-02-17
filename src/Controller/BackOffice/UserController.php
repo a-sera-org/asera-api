@@ -7,6 +7,7 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Utils\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,5 +29,15 @@ class UserController extends AbstractController
         $paginator = $this->paginator->paginate($query, $request->query->getInt('page', 1));
 
         return $this->render('backoffice/users/list_all_user.html.twig', ['paginator' => $paginator]);
+    }
+
+    #[Route('/update/{id}/statut', name: 'statut')]
+    public function changeUserStatus(User $user): Response
+    {
+        $user->setIsEnabled(!$user->isIsEnabled());
+        $this->userRepository->save($user, true);
+        $this->addFlash('success', 'Modification éfféctuée avec success !');
+
+        return $this->redirectToRoute('admin_user_list');
     }
 }

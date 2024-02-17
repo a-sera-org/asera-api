@@ -10,6 +10,7 @@ use App\Entity\Contact;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -85,9 +86,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * @throws NonUniqueResultException
+     * @throws NonUniqueResultException|NoResultException
      */
-    public function loadUserByRole(?string $role)
+    public function loadUserByRole(?string $role): float|bool|int|string|null
     {
         return $this->createQueryBuilder('u')
             ->select('COUNT(u.id)')

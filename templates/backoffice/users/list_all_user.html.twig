@@ -21,7 +21,9 @@
                             <td>{{ user.username }}</td>
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.contact ? user.contact.email : '' }}</td>
-                            <td>{{ user.isEnabled ? 'OUI' : 'NON' }}</td>
+                            <td>
+                                <a href="{{ path('admin_user_statut', {id: user.id}) }}" class="badge badge-{{ user.isEnabled ? 'success' : 'warning' }}">{{ user.isEnabled ? 'OUI' : 'NON' }}</a>
+                            </td>
                             <td><label class="badge badge-warning">In progress</label></td>
                         </tr>
                     {% endfor %}
