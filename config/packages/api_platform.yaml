@@ -1,7 +1,7 @@
 api_platform:
     swagger:
         api_keys:
-            apiKey:
+            JWT:
                 name: Authorization
                 type: header
     title: Hello API Platform
