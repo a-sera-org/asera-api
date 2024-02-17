@@ -14,20 +14,23 @@
 </head>
 <body  class="with-welcome-text">
 <div class="container-scroller">
-    {% include 'backoffice/template/_pro_banner.html.twig' %}
-    {% include 'backoffice/template/_nav_bar.html.twig' %}
-    <div class="container-fluid page-body-wrapper">
-        {% include 'backoffice/template/_theming.html.twig' %}
-        {% include 'backoffice/template/_side_nav_right.html.twig' %}
-        {% include 'backoffice/template/_side_nav.html.twig' %}
-        <div class="main-panel">
-            <div class="content-wrapper">
-                <div class="row">
-                    {% block body %}{% endblock %}
+    {% block main_page %}
+        {% include 'backoffice/template/_pro_banner.html.twig' %}
+        {% include 'backoffice/template/_nav_bar.html.twig' %}
+        <div class="container-fluid page-body-wrapper">
+            {% include 'backoffice/template/_theming.html.twig' %}
+            {% include 'backoffice/template/_side_nav_right.html.twig' %}
+            {% include 'backoffice/template/_side_nav.html.twig' %}
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        {% block body %}{% endblock %}
+                    </div>
                 </div>
             </div>
+            {% include 'backoffice/template/_footer.html.twig' %}
         </div>
-        {% include 'backoffice/template/_footer.html.twig' %}
-    </div>
+    {% endblock %}
+</div>
 </body>
 </html>

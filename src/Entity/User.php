@@ -56,7 +56,6 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
         ),
         new Delete(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user"),
     ],
-    routePrefix: '/api',
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
     mercure: false,

@@ -52,7 +52,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             deserialize: false
         ),
     ],
-    routePrefix: '/api',
     normalizationContext: ['groups' => ['media_object:read', 'company:read', 'user:read']]
 )]
 class MediaObject

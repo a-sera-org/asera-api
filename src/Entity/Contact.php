@@ -22,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ApiResource(
-    routePrefix: '/api',
     normalizationContext: ['groups' => ['user:read', 'default', 'company:read', 'job:read']],
     denormalizationContext: ['groups' => ['user:write', 'contact:write', 'default', 'company:write', 'recruiter:write']],
     mercure: false,

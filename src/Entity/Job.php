@@ -39,7 +39,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(),
         new GetCollection(),
     ],
-    routePrefix: '/api',
     normalizationContext: ['groups' => ['job:read']],
     denormalizationContext: ['groups' => ['job:write']],
     mercure: true,

@@ -5,7 +5,8 @@ framework:
     #annotations: false
     http_method_override: false
     handle_all_throwables: true
- 
+    csrf_protection: true
+    session: true
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_hosts: '%env(TRUSTED_HOSTS)%'
     # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
