@@ -1,0 +1,26 @@
+{% set _currentPage = app.request.query.get('page') ?: 1 %}
+{% set _currentRoute = app.request.attributes.get('_route') %}
+{% set _lastPage = paginator.lastPage %}
+{% set _currentParams = app.request.query.all|merge(app.request.attributes.get('_route_params')) %}
+
+{% if paginator.lastPage > 1 %}
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item{{ _currentPage <= 1 ? ' disabled' : '' }}">
+                <a class="page-link" href="{{ path(_currentRoute, _currentParams|merge({page: _currentPage - 1})) }}" aria-label="Previous">
+                    &laquo; Précédent
+                </a>
+            </li>
+            {% for i in 1..paginator.lastPage %}
+                <li class="page-item {% if i == _currentPage %}active{% endif %}">
+                    <a class="page-link" href="{{ path(_currentRoute, _currentParams|merge({page: i})) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {{ _currentPage >= paginator.lastPage ? ' disabled' : '' }}">
+                <a class="page-link" href="{{ path(_currentRoute, _currentParams|merge({page: _currentPage + 1})) }}" aria-label="Next">
+                    Suivant &raquo;
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endif %}
