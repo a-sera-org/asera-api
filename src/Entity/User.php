@@ -9,6 +9,8 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Api\ApiRecruiterController;
+use App\Controller\Api\ApiUserController;
 use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,7 +32,19 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
 #[ApiResource(
     operations: [
         new GetCollection(security: "is_granted('ROLE_ADMIN')"),
-        new Post(processor: UserPasswordHasher::class),
+        new Post(
+            uriTemplate: '/register/user',
+            controller: ApiUserController::class,
+            name: 'register_user',
+            processor: UserPasswordHasher::class
+        ),
+        new Post(
+            uriTemplate: '/register/recruiter',
+            controller: ApiRecruiterController::class,
+            denormalizationContext: ['groups' => ['recruiter:write']],
+            name: 'register_recruiter',
+            processor: UserPasswordHasher::class
+        ),
         new Get(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user"),
         new Put(
             security: "is_granted('ROLE_ADMIN') or object.getOwner() == user",
@@ -63,31 +77,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?string $lastname = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     #[Assert\Valid]
     private ?Contact $contact = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?string $username = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $password = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?int $sex = null;
 
     #[ORM\Column(type: Types::JSON)]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read'])]
     private array $roles = ['ROLE_USER'];
 
     private ?string $salt = null;
@@ -96,17 +110,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         'minScore' => PasswordStrength::STRENGTH_WEAK,
         'message' => 'Your password is too easy to guess. Asera\'s security policy requires to use a stronger password.',
     ])]
-    #[Groups(['user:write'])]
+    #[Groups(['user:write', 'recruiter:write'])]
     private ?string $plainPassword = null;
 
     #[ORM\ManyToMany(targetEntity: Job::class, mappedBy: 'candidates')]
     private Collection $jobs;
 
     #[ORM\OneToOne(inversedBy: 'owner', cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?UserMedia $media = null;
 
     #[ORM\ManyToMany(targetEntity: Company::class, mappedBy: 'admins')]
+    #[Groups(['recruiter:write'])]
     private Collection $companies;
 
     public function __construct()

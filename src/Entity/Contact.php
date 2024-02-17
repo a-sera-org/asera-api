@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     routePrefix: '/api',
     normalizationContext: ['groups' => ['user:read', 'default', 'company:read', 'job:read']],
-    denormalizationContext: ['groups' => ['user:write', 'contact:write', 'default', 'company:write']],
+    denormalizationContext: ['groups' => ['user:write', 'contact:write', 'default', 'company:write', 'recruiter:write']],
     mercure: false,
     security: "is_granted('IS_AUTHENTICATED_FULLY')",
 )]
@@ -46,16 +46,16 @@ class Contact
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write', 'contact:write', 'company:write', 'job:read', 'company:read'])]
+    #[Groups(['user:read', 'user:write', 'contact:write', 'recruiter:write', 'company:write', 'job:read', 'company:read'])]
     #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    #[Groups(['user:read', 'user:write', 'contact:write', 'company:write', 'job:read', 'company:read'])]
+    #[Groups(['user:read', 'user:write', 'contact:write', 'recruiter:write', 'company:write', 'job:read', 'company:read'])]
     private ?array $phones = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['user:read', 'user:write', 'contact:write', 'job:read', 'company:read'])]
+    #[Groups(['user:read', 'user:write', 'contact:write', 'recruiter:write', 'job:read', 'company:read'])]
     private ?string $linkedin = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -70,7 +70,7 @@ class Contact
     private ?Company $company = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:read', 'user:write', 'contact:write', 'company:write', 'job:read', 'company:read'])]
+    #[Groups(['user:read', 'user:write', 'contact:write', 'recruiter:write', 'company:write', 'job:read', 'company:read'])]
     private ?string $web = null;
 
     /**

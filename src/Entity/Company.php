@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     routePrefix: '/api',
     normalizationContext: ['groups' => ['company:read', 'job:read']],
-    denormalizationContext: ['groups' => ['company:write']],
+    denormalizationContext: ['groups' => ['company:write', 'recruiter:write']],
     mercure: false
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
@@ -54,33 +54,33 @@ class Company
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 200)]
-    #[Groups(['company:write', 'company:read', 'job:read'])]
+    #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['company:write', 'company:read', 'job:read'])]
+    #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
     private ?string $address = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Contact::class, cascade: ['persist', 'remove'])]
-    #[Groups(['company:write', 'company:read', 'job:read'])]
+    #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
     #[Assert\Valid]
     private Collection $contact;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['company:write', 'company:read'])]
+    #[Groups(['company:write', 'company:read', 'recruiter:write'])]
     private ?string $nif = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['company:write', 'company:read'])]
+    #[Groups(['company:write', 'company:read', 'recruiter:write'])]
     private ?string $stat = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['company:write', 'company:read', 'job:read'])]
+    #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
     private ?int $type = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups(['company:write', 'company:read', 'job:read'])]
+    #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
     private ?MediaObject $logo = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Job::class)]

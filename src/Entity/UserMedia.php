@@ -20,7 +20,7 @@ use Symfony\Component\Uid\Uuid;
     ],
     routePrefix: '/api',
     normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:write']],
+    denormalizationContext: ['groups' => ['user:write', 'recruiter:write']],
     mercure: false
 )]
 class UserMedia
@@ -32,19 +32,19 @@ class UserMedia
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read'])]
     private ?Uuid $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?MediaObject $profilePicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?MediaObject $coverPicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
     private ?MediaObject $cv = null;
 
     #[ORM\OneToOne(mappedBy: 'media', cascade: ['persist', 'remove'])]

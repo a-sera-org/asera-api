@@ -37,9 +37,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 enum UserRoleType: string
 {
     case ROLE_USER = 'ROLE_USER';
-    case ROLE_ADMIN = 'ROLE_ADMIN';
-    case ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
-    case ROLE_RECRUTEUR = 'ROLE_RECRUTEUR';
+    case ROLE_RECRUITER = 'ROLE_RECRUTEUR';
 
     public function getId(): string
     {
@@ -57,9 +55,7 @@ enum UserRoleType: string
     {
         return match ($this) {
             self::ROLE_USER => 'Utilisateur simple, candidat',
-            self::ROLE_ADMIN => 'Utilisatuer admin de la plateforme',
-            self::ROLE_SUPER_ADMIN => 'Master de la plateforme',
-            self::ROLE_RECRUTEUR => 'Recruteur, cet utilisateur doit être lié a une entreprise'
+            self::ROLE_RECRUITER => 'Recruteur, cet utilisateur doit être lié a une entreprise'
         };
     }
 

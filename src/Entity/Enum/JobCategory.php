@@ -43,6 +43,8 @@ enum JobCategory: int
     case IT_HARDWARE = 6;
     case COMMUNITY_MANAGER = 7;
     case ADMINISTRATION = 8;
+    case AI = 9;
+    case DATA = 10;
 
     public function getId(): string
     {
@@ -58,6 +60,22 @@ enum JobCategory: int
     public static function getCases(): array
     {
         return self::cases();
+    }
+
+    #[Groups('user_role:read')]
+    public function getDescription(): string
+    {
+        return match ($this) {
+            self::ADMINISTRATION => 'Pour les roles administratif, genre CTO/Directeur Technique etc ...',
+            self::ADMIN_SYS => 'Administrateur de système et réseau',
+            self::COMMUNITY_MANAGER => 'Community manager',
+            self::PRODUCT_OWNER => 'Chef de projet ou Product owner',
+            self::DEVOPS => 'Devops',
+            self::IT_HARDWARE => 'Help Desk, etc ...',
+            self::SOFTWARE_ENGINEER => 'Dev, Lead Tech etc ...',
+            self::AI => 'Artificial Intelligence Engineer',
+            self::DATA => 'Data manager',
+        };
     }
 
     public static function getCase(Operation $operation, array $uriVariables)
