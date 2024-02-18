@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Controller\IgnoredController;
 use App\Repository\UserMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,8 +21,12 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: UserMediaRepository::class)]
 #[ApiResource(
     operations: [
+        new Delete(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Put(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Patch(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Get(),
-        new GetCollection(controller: IgnoredController::class),
+        new GetCollection(),
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write', 'recruiter:write']],
