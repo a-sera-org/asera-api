@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Controller\IgnoredController;
 use App\Repository\UserMediaRepository;
@@ -16,6 +17,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: UserMediaRepository::class)]
 #[ApiResource(
     operations: [
+        new Get(),
         new GetCollection(controller: IgnoredController::class),
     ],
     normalizationContext: ['groups' => ['user:read']],
