@@ -33,9 +33,9 @@ class AuthenticationSuccessListener
         $data['data'] = [
             'id' => $user->getId(),
             'username' => $user->getusername(),
-            'roles' => $user->getRoles(),
             'sex' => $user->getSex(),
-            'contact' => $user->getContact(),
+            'email' => $user->getContact() ? $user->getContact()->getEmail() : '',
+            'tel' => $user->getContact() ? implode(',', $user->getContact()->getPhones() ?? []) : '',
             'profile_picture' => $user->getMedia() ? $user->getMedia()->getProfilePicture() : '',
             'couverture_image' => $user->getMedia() ? $user->getMedia()->getCoverPicture() : '',
             'firstname' => $user->getFirstname(),

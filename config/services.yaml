@@ -26,6 +26,9 @@ services:
     App\Event\Listener\AuthenticationSuccessListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+    asera.custom_provider:
+        class: App\Security\UserCustomProvider
+        public: true
 
     App\Factory\IgnoredRouteFactory:
         decorates: 'api_platform.openapi.factory'
