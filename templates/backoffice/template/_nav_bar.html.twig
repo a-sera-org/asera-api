@@ -33,7 +33,7 @@
                         <p class="mb-1 mt-3 font-weight-semibold">{{ app.user.lastname }}</p>
                         <p class="fw-light text-muted mb-0">{{ app.user.contact ? app.user.contact.email : app.user.username }}</p>
                     </div>
-                    <a class="dropdown-item">
+                    <a href="{{ path('admin_user_details', {id: app.user.id}) }}" class="dropdown-item">
                         <i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i>
                         My Profile
                         <span class="badge badge-pill badge-danger">1</span>

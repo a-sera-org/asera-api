@@ -7,9 +7,15 @@
 
 namespace App\Handler;
 
+use App\Entity\Contact;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class UserHandler
 {
@@ -29,5 +35,21 @@ class UserHandler
         $user->setRoles(['ROLE_RECRUITER']);
 
         return $user;
+    }
+
+    public function updateThisUser(Request $request, User $user): void
+    {
+        $normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter());
+        $payload = $request->request->all();
+        if (isset($request->request->all()['contact'])) {
+            $contact = $normalizer->denormalize($payload['contact'], Contact::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user->getContact()]);
+            $user->setContact($contact);
+            unset($payload['contact']);
+        }
+
+        if (!empty($payload)) {
+            $normalizer->denormalize($payload, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
+        }
+        $this->entityManager->flush();
     }
 }

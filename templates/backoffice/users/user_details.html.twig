@@ -5,19 +5,23 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Informations de l'utilisateur</h4>
-                <form class="forms-sample">
+                <form method="post" class="forms-sample" {% if allowUpdate %}action="{{ path('admin_user_update', {id: app.user.id}) }}"{% endif %}>
                     <div class="form-group">
-                        <label for="exampleInputUsername1">Nom d'utilisateur</label>
-                        <input type="text" value="{{ user.username }}" readonly class="form-control" id="exampleInputUsername1">
+                        <label for="username">Nom d'utilisateur</label>
+                        <input type="text" value="{{ user.username }}" name="username"  {% if not allowUpdate %} readonly {% endif%} class="form-control" id="username">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nom</label>
-                        <input type="email" class="form-control" readonly value="{{ user.lastname }}">
+                        <label for="lastname">Nom</label>
+                        <input type="text" id="lastname" class="form-control" name="lastname"  {% if not allowUpdate %} readonly {% endif%} value="{{ user.lastname }}">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Prénom</label>
-                        <input type="text" class="form-control" readonly value="{{ user.firstname }}">
+                        <label for="firstname">Prénom</label>
+                        <input type="text" id="firstname" class="form-control" name="firstname"  {% if not allowUpdate %} readonly {% endif%} value="{{ user.firstname }}">
                     </div>
+                    {% if allowUpdate %}
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -26,25 +30,29 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Contact</h4>
-                <form class="forms-sample">
+                <form method="post" class="forms-sample" {% if allowUpdate %}action="{{ path('admin_user_update', {id: app.user.id}) }}"{% endif %}>
                     <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Email</label>
+                        <label for="email" class="col-sm-3 col-form-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="text" readonly class="form-control" value="{{ user.contact ? user.contact.email : '' }}">
+                            <input type="email" id="email" name="contact[email]"  {% if not allowUpdate %} readonly {% endif%} class="form-control" value="{{ user.contact ? user.contact.email : '' }}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">Téléphone</label>
+                        <label for="phoneNumber" class="col-sm-3 col-form-label">Téléphone</label>
                         <div class="col-sm-9">
-                            <input type="text" readonly class="form-control" placeholder="{{ user.contact ? user.contact.phones|join(',') }}">
+                            <input type="tel" id="phoneNumber" name="contact[phones][]"  {% if not allowUpdate %} readonly {% endif%} class="form-control" value="{{ user.contact ? user.contact.phones|join(',') }}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">LinkedIn</label>
+                        <label for="linkedin" class="col-sm-3 col-form-label">LinkedIn</label>
                         <div class="col-sm-9">
-                            <input type="text" readonly class="form-control"  placeholder="{{ user.contact ? user.contact.linkedin : ''}}">
+                            <input type="text" id="linkedin" name="contact[linkedin]" {% if not allowUpdate %} readonly {% endif%} class="form-control"  value="{{ user.contact ? user.contact.linkedin : ''}}">
                         </div>
                     </div>
+                    {% if allowUpdate %}
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <button class="btn btn-light">Cancel</button>
+                    {% endif %}
                 </form>
             </div>
         </div>

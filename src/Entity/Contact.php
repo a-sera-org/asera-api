@@ -3,12 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -105,7 +99,12 @@ class Contact
 
     public function setPhones(?array $phones): static
     {
-        $this->phones = $phones;
+        $phonesCleaned = $phones;
+        if (isset($phones[0]) && str_contains(',', $phones[0])) {
+            $phonesCleaned = explode(',', $phones[0]);
+        }
+
+        $this->phones = $phonesCleaned;
 
         return $this;
     }

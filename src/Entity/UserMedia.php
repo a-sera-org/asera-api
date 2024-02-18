@@ -28,7 +28,7 @@ use Symfony\Component\Uid\Uuid;
         new GetCollection(),
     ],
     normalizationContext: ['groups' => ['user:media:read', 'user:read'], 'enable_max_depth' => true],
-    denormalizationContext: ['groups' => ['user:media:write']],
+    denormalizationContext: ['groups' => ['user:media:write', 'user:write']],
     mercure: false
 )]
 class UserMedia
@@ -44,15 +44,15 @@ class UserMedia
     private ?Uuid $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:media:read', 'user:media:write', 'user:read'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write'])]
     private ?MediaObject $profilePicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:media:read', 'user:media:write', 'user:read'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write'])]
     private ?MediaObject $coverPicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:media:read', 'user:media:write', 'user:read'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write'])]
     private ?MediaObject $cv = null;
 
     #[ORM\OneToOne(mappedBy: 'media', cascade: ['persist', 'remove'])]

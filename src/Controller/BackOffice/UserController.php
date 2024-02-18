@@ -7,9 +7,8 @@
 
 namespace App\Controller\BackOffice;
 
-use App\Entity\MediaObject;
 use App\Entity\User;
-use App\Entity\UserMedia;
+use App\Handler\UserHandler;
 use App\Repository\UserRepository;
 use App\Utils\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/users', name: 'admin_user_')]
 class UserController extends AbstractController
 {
-    public function __construct(private UserRepository $userRepository, private Paginator $paginator)
+    public function __construct(private UserHandler $userHandler, private UserRepository $userRepository, private Paginator $paginator)
     {
     }
 
@@ -52,6 +51,19 @@ class UserController extends AbstractController
     #[Route('/{id}/details', name: 'details', methods: 'GET')]
     public function renderUserDetails(User $user): Response
     {
-        return $this->render('backoffice/users/user_details.html.twig', ['user' => $user]);
+        $allowUpdate = false;
+        if ($user->getUserIdentifier() === $this->getUser()->getUserIdentifier()) {
+            $allowUpdate = true;
+        }
+
+        return $this->render('backoffice/users/user_details.html.twig', ['user' => $user, 'allowUpdate' => $allowUpdate]);
+    }
+
+    #[Route('/{id}/update', name: 'update')]
+    public function updateUser(Request $request, User $user)
+    {
+        $this->userHandler->updateThisUser($request, $user);
+
+        return $this->redirectToRoute('admin_user_list');
     }
 }
