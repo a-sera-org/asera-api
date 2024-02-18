@@ -9,6 +9,7 @@
                     <thead>
                         <tr>
                             <th>Nom d'utilisateur</th>
+                            <th>Nom</th>
                             <th>Prénom</th>
                             <th>Email</th>
                             <th>Actif</th>
@@ -20,6 +21,7 @@
                         <tr>
                             <td>{{ user.username }}</td>
                             <td>{{ user.lastname }}</td>
+                            <td>{{ user.firstname }}</td>
                             <td>{{ user.contact ? user.contact.email : '' }}</td>
                             <td>
                                 <a href="{{ path('admin_user_statut', {id: user.id}) }}" class="btn btn-sm badge-{{ user.isEnabled ? 'success' : 'warning' }}">{{ user.isEnabled ? 'OUI' : 'NON' }}</a>
