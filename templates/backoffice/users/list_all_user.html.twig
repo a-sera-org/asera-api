@@ -22,9 +22,11 @@
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.contact ? user.contact.email : '' }}</td>
                             <td>
-                                <a href="{{ path('admin_user_statut', {id: user.id}) }}" class="badge badge-{{ user.isEnabled ? 'success' : 'warning' }}">{{ user.isEnabled ? 'OUI' : 'NON' }}</a>
+                                <a href="{{ path('admin_user_statut', {id: user.id}) }}" class="btn btn-sm badge-{{ user.isEnabled ? 'success' : 'warning' }}">{{ user.isEnabled ? 'OUI' : 'NON' }}</a>
                             </td>
-                            <td><label class="badge badge-warning">In progress</label></td>
+                            <td>
+                                <a href="#" class="btn btn-sm badge badge-warning">Details</a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

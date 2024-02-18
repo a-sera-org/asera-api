@@ -19,6 +19,12 @@
                 <span class="menu-title">Entreprises</span>
             </a>
         </li>
+        <li class="nav-item {% if menu_job is defined %} active {% endif %}">
+            <a class="nav-link" href="{{ path('admin_job_list') }}">
+                <i class="menu-icon mdi mdi-search-web"></i>
+                <span class="menu-title">Liste des emploies</span>
+            </a>
+        </li>
         <li class="nav-item nav-category">API</li>
         <li class="nav-item">
             <a class="nav-link" target="_blank" href="{{ path('api_doc') }}">

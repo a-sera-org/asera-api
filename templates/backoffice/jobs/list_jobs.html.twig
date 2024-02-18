@@ -1,0 +1,34 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Les des postes</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Poste</th>
+                        <th>Nom de l'entreprise</th>
+                        <th>Actif</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for job in paginator.items %}
+                        <tr>
+                            <td>{{ job.title }}</td>
+                            <td>{{ job.company ? job.company.name : '' }}</td>
+                            <td>
+                                <a href="{{ path('admin_job_update_statut', {id: job.id}) }}" class="badge badge-{{ job.isEnabled ? 'success' : 'warning' }}">{{ job.isEnabled ? 'OUI' : 'NON' }}</a>
+                            </td>
+                            <td><label class="badge badge-warning">In progress</label></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% include 'backoffice/template/_paginator.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

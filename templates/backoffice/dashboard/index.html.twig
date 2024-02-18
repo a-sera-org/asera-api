@@ -26,36 +26,36 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="statistics-details d-flex align-items-center justify-content-between">
-                                <div>
-                                    <p class="statistics-title">Nombre utilisateur(s)</p>
+                                <a href="{{ path('admin_user_list') }}" class="text-decoration-none">
+                                    <p  href="{{ path('admin_user_list') }}" class="statistics-title">Nombre utilisateur(s)</p>
                                     <h3 class="rate-percentage">{{ users_count|default(0) }}</h3>
                                     <p class="text-{{ users_percent > 60 ? 'success' : (users_percent > 40 ? 'warning' : 'danger') }} d-flex"><i
                                                 class="mdi mdi-menu-{{ users_percent > 60 ? 'up' : (users_percent > 40 ? 'right' : 'down') }}"></i><span>{{ users_percent }}%</span></p>
-                                </div>
-                                <div>
+                                </a>
+                                <a href="{{ path('admin_job_list') }}" class="text-decoration-none">
                                     <p class="statistics-title">Nombre des poste(s) en cours</p>
                                     <h3 class="rate-percentage">{{ jobs_count|default(0) }}</h3>
                                     <p class="text-{{ jobs_percent > 60 ? 'success' : (jobs_percent > 40 ? 'warning' : 'danger') }} d-flex">
                                         <i class="mdi mdi-menu-{{ jobs_percent > 60 ? 'up' : (jobs_percent > 40 ? 'right' : 'down') }}"></i>
                                         <span>{{ jobs_percent }}%</span>
                                     </p>
-                                </div>
-                                <div>
+                                </a>
+                                <a href="{{ path('admin_company_list') }}" class="text-decoration-none">
                                     <p class="statistics-title">Nombre entreprise(s)</p>
                                     <h3 class="rate-percentage">{{ companies_count }}</h3>
                                     <p class="text-{{ companies_percent > 60 ? 'success' : (companies_percent > 40 ? 'warning' : 'danger') }} d-flex">
                                         <i class="mdi mdi-menu-{{ companies_percent > 60 ? 'up' : (companies_percent > 40 ? 'right' : 'down') }}"></i>
                                         <span>{{ companies_percent }}%</span>
                                     </p>
-                                </div>
-                                <div>
+                                </a>
+                                <a href="#" class="text-decoration-none">
                                     <p class="statistics-title">Asera boards</p>
                                     <h3 class="rate-percentage">{{ boards_count }}</h3>
                                     <p class="text-success d-flex">
                                         <i class="mdi mdi-menu-right"></i>
                                         <span>{{ boards_percent }}%</span>
                                     </p>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div>

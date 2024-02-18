@@ -72,17 +72,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $contact = $this->getEntityManager()->getRepository(Contact::class)->findOneBy(['email' => $emailOrUsername]);
         if (!empty($contact)) {
             return $this->createQueryBuilder('u')
-                ->where('u.username = :emailOrUsername')
-                ->orWhere('u.contact = :contact')
+                ->where('u.username = :emailOrUsername AND u.isEnabled = :enable')
+                ->orWhere('u.contact = :contact AND u.isEnabled = :enable')
                 ->setParameters([
                     'emailOrUsername' => $emailOrUsername,
                     'contact' => $contact,
+                    'enable' => true,
                 ])->getQuery()->getOneOrNullResult();
         }
 
         return $this->createQueryBuilder('u')
-            ->where('u.username = :emailOrUsername')
-            ->setParameter('emailOrUsername', $emailOrUsername)->getQuery()->getOneOrNullResult();
+            ->where('u.username = :emailOrUsername AND u.isEnabled = :enable')
+            ->setParameters([
+                'emailOrUsername' => $emailOrUsername,
+                'enable' => true,
+            ])->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -96,7 +100,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('role', '["'.$role.'"]')
             ->getQuery()
             ->getSingleScalarResult();
-        ;
     }
 
     public function findAllUsers(): Query
