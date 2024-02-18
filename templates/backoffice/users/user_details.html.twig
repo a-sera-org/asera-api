@@ -30,19 +30,19 @@
                     <div class="form-group row">
                         <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="exampleInputUsername2" value="{{ user.contact ? user.contact.email : '' }}">
+                            <input type="text" readonly class="form-control" value="{{ user.contact ? user.contact.email : '' }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="exampleInputMobile" class="col-sm-3 col-form-label">Téléphone</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="exampleInputMobile" placeholder="{{ user.contact ? user.contact.phones|join(',') }}">
+                            <input type="text" readonly class="form-control" placeholder="{{ user.contact ? user.contact.phones|join(',') }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="exampleInputMobile" class="col-sm-3 col-form-label">LinkedIn</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="exampleInputMobile" placeholder="{{ user.contact ? user.contact.linkedin : ''}}">
+                            <input type="text" readonly class="form-control"  placeholder="{{ user.contact ? user.contact.linkedin : ''}}">
                         </div>
                     </div>
                 </form>
