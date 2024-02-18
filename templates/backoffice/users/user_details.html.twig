@@ -1,0 +1,70 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block body %}
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Informations de l'utilisateur</h4>
+                <form class="forms-sample">
+                    <div class="form-group">
+                        <label for="exampleInputUsername1">Nom d'utilisateur</label>
+                        <input type="text" value="{{ user.username }}" readonly class="form-control" id="exampleInputUsername1">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nom</label>
+                        <input type="email" class="form-control" readonly value="{{ user.lastname }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Prénom</label>
+                        <input type="text" class="form-control" readonly value="{{ user.firstname }}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Contact</h4>
+                <form class="forms-sample">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="exampleInputUsername2" value="{{ user.contact ? user.contact.email : '' }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">Téléphone</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="exampleInputMobile" placeholder="{{ user.contact ? user.contact.phones|join(',') }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">LinkedIn</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="exampleInputMobile" placeholder="{{ user.contact ? user.contact.linkedin : ''}}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if user.media is not empty %}
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Fichiers de l'utilisateur</h4>
+                    <form class="forms-sample">
+                        {% if user.media.cv %}
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">CV : </label>
+                                <a href="{{ asset('media/'~user.media.cv.filePath) }}" download="">Télécharger le CV de l'utilisateur</a>
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

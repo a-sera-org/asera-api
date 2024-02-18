@@ -27,7 +27,7 @@
                                 <a href="{{ path('admin_user_statut', {id: user.id}) }}" class="btn btn-sm badge-{{ user.isEnabled ? 'success' : 'warning' }}">{{ user.isEnabled ? 'OUI' : 'NON' }}</a>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-sm badge badge-warning">Details</a>
+                                <a href="{{ path('admin_user_details', {id: user.id}) }}" class="btn btn-sm badge badge-warning">Details</a>
                             </td>
                         </tr>
                     {% endfor %}

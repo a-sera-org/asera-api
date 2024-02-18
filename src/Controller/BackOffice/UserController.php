@@ -7,7 +7,9 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Entity\MediaObject;
 use App\Entity\User;
+use App\Entity\UserMedia;
 use App\Repository\UserRepository;
 use App\Utils\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,5 +47,11 @@ class UserController extends AbstractController
         $this->addFlash('success', 'Modification éfféctuée avec success !');
 
         return $this->redirectToRoute('admin_user_list');
+    }
+
+    #[Route('/{id}/details', name: 'details', methods: 'GET')]
+    public function renderUserDetails(User $user): Response
+    {
+        return $this->render('backoffice/users/user_details.html.twig', ['user' => $user]);
     }
 }

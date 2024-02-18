@@ -9,7 +9,6 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use App\Controller\IgnoredController;
 use App\Repository\UserMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -28,8 +27,8 @@ use Symfony\Component\Uid\Uuid;
         new Get(),
         new GetCollection(),
     ],
-    normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:write', 'recruiter:write']],
+    normalizationContext: ['groups' => ['user:media:read', 'user:read'], 'enable_max_depth' => true],
+    denormalizationContext: ['groups' => ['user:media:write']],
     mercure: false
 )]
 class UserMedia
@@ -45,18 +44,19 @@ class UserMedia
     private ?Uuid $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read'])]
     private ?MediaObject $profilePicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read'])]
     private ?MediaObject $coverPicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read'])]
     private ?MediaObject $cv = null;
 
     #[ORM\OneToOne(mappedBy: 'media', cascade: ['persist', 'remove'])]
+    #[Groups(['user:media:read', 'user:media:write'])]
     private ?User $owner = null;
 
     public function getId(): ?string
