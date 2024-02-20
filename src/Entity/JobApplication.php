@@ -14,7 +14,11 @@ use Symfony\Component\Uid\Uuid;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: JobApplicationRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['job:application:read']],
+    denormalizationContext: ['groups' => ['job:application:write']],
+    security: "is_granted('IS_AUTHENTICATED_FULLY')"
+)]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 class JobApplication
 {
@@ -25,21 +29,25 @@ class JobApplication
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['user:read'])]
+    #[Groups(['job:application:read'])]
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['job:application:read', 'job:application:write'])]
     private ?User $candidat = null;
 
     #[ORM\ManyToOne(inversedBy: 'jobApplications')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['job:application:read', 'job:application:write'])]
     private ?Job $job = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['job:application:read', 'job:application:write'])]
     private ?MediaObject $cv = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['job:application:read', 'job:application:write'])]
     private ?string $motivation = null;
 
     public function getId(): ?string

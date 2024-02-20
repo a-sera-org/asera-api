@@ -76,27 +76,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:application:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:application:read'])]
     private ?string $lastname = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:application:read'])]
     #[Assert\Valid]
     private ?Contact $contact = null;
 
     #[ORM\Column(length: 100, unique: true)]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:application:read'])]
     private ?string $username = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $password = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['user:read', 'user:write', 'recruiter:write'])]
+    #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:application:read'])]
     private ?int $sex = null;
 
     #[ORM\Column(type: Types::JSON)]

@@ -55,40 +55,40 @@ class Job
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     #[ApiProperty(description: 'the user')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?string $salary = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?string $diploma = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?string $experiences = null;
 
     #[ORM\ManyToOne(inversedBy: 'jobs')]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?Company $company = null;
 
     #[ORM\Column]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?int $contract = 1;
 
     #[ORM\Column]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?int $workType = 1;
 
     #[ORM\Column]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?int $jobCategory = 1;
 
     #[ORM\Column(nullable: true)]
