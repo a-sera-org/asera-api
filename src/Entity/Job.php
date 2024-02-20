@@ -95,6 +95,7 @@ class Job
     private ?bool $isEnabled = true;
 
     #[ORM\OneToMany(mappedBy: 'job', targetEntity: JobApplication::class, orphanRemoval: true)]
+    #[Groups('job:read')]
     private Collection $jobApplications;
 
     public function __construct()
