@@ -1,4 +1,6 @@
 api_platform:
+    eager_loading:
+        enabled: false
     swagger:
         api_keys:
             JWT:

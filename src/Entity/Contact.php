@@ -38,7 +38,7 @@ class Contact
     #[Groups(['user:read', 'company:read', 'job:read', 'job:read'])]
     private ?Uuid $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Groups(['user:read', 'user:write', 'contact:write', 'recruiter:write', 'company:write', 'job:read', 'company:read'])]
     #[Assert\Email]
     private ?string $email = null;

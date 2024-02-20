@@ -35,7 +35,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function save(User $entity, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        if (!$entity->getId()) {
+            $this->getEntityManager()->persist($entity);
+        }
 
         if ($flush) {
             $this->getEntityManager()->flush();
@@ -72,6 +74,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * @throws NonUniqueResultException
+     * @throws NoResultException
      */
     public function loadUserByEmailOrUsername(string $emailOrUsername)
     {
@@ -84,7 +87,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                     'emailOrUsername' => $emailOrUsername,
                     'contact' => $contact,
                     'enable' => true,
-                ])->getQuery()->getOneOrNullResult();
+                ])->getQuery()->getSingleResult();
         }
 
         return $this->createQueryBuilder('u')
@@ -92,7 +95,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameters([
                 'emailOrUsername' => $emailOrUsername,
                 'enable' => true,
-            ])->getQuery()->getOneOrNullResult();
+            ])->getQuery()->getSingleResult();
     }
 
     /**

@@ -1,0 +1,88 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block body %}
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Informations de l'entreprise</h4>
+                <form method="post" class="forms-sample">
+                    <div class="form-group">
+                        <label for="username">Nom</label>
+                        <input type="text" value="{{ company.name }}" name="username" readonly class="form-control" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">NIF</label>
+                        <input type="text" id="lastname" class="form-control" name="lastname"  readonly value="{{ company.nif }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname">STAT</label>
+                        <input type="text" id="firstname" class="form-control" name="firstname" readonly  value="{{ company.stat }}">
+                    </div>
+                    {% if allowUpdate is defined %}
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Contact</h4>
+                {% for contact in company.contact %}
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" id="email" name="contact[email]" readonly class="form-control" value="{{ contact.email }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="phoneNumber" class="col-sm-3 col-form-label">Téléphone</label>
+                        <div class="col-sm-9">
+                            <input type="tel" id="phoneNumber" name="contact[phones][]" readonly class="form-control" value="{{ contact.phones ? contact.phones|join(',') }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="linkedin" class="col-sm-3 col-form-label">LinkedIn</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="linkedin" name="contact[linkedin]" readonly class="form-control"  value="{{ contact.linkedin ? contact.linkedin : ''}}">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Employées de l'entreprise</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for employe in company.admins %}
+                            <tr>
+                                <td>{{ employe.lastname }}</td>
+                                <td>{{ employe.firstname }}</td>
+                                <td>{{ employe.contact ? employe.contact.email : '' }}</td>
+                                <td>
+                                    <a href="{{ path('admin_company_remove_user', {company:company.id, user:employe.id}) }}" class="btn-sm badge-info">Supprimer l'association</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

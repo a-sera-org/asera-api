@@ -28,6 +28,8 @@ class CreateUserCommand extends Command
     {
         $this
             ->addOption('create', null, InputOption::VALUE_NONE, 'Create user')
+            ->addOption('dump', null, InputOption::VALUE_REQUIRED, 'Dump user details')
+            ->addOption('remove', null, InputOption::VALUE_REQUIRED, 'Remove user')
             ->addOption('enable-all', null, InputOption::VALUE_NONE, 'Activé tous les utilisateurs')
         ;
     }
@@ -35,6 +37,7 @@ class CreateUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $remove = $input->getOption('remove');
         if ($input->getOption('create')) {
             $username = $io->askQuestion(new Question('Username '));
             $password = $io->askQuestion(new Question('Password '));
@@ -49,6 +52,26 @@ class CreateUserCommand extends Command
             $this->entityManager->flush();
 
             $io->success("User $username created successfully !");
+        }
+
+        if ($input->getOption('dump')) {
+            $users = $this->entityManager->getRepository(User::class)->findBy(['username' => $input->getOption('dump')]);
+            $io->warning(count($users).' users found');
+
+            foreach ($users as $user) {
+                $email = $user->getContact() ? $user->getContact()->getEmail() : '';
+                $io->warning("{$user->getUsername()} : $email");
+            }
+
+            return true;
+        }
+
+        if ($remove) {
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $remove]);
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+
+            return true;
         }
 
         if ($input->getOption('enable-all')) {

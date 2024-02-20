@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class UserHandler
@@ -37,6 +36,9 @@ class UserHandler
         return $user;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function updateThisUser(Request $request, User $user): void
     {
         $normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter());

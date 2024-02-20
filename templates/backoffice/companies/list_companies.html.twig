@@ -18,9 +18,11 @@
                         <tr>
                             <td>{{ company.name }}</td>
                             <td>
-                                <a href="{{ path('admin_company_update_statut', {id: company.id}) }}" class="badge badge-{{ company.isEnabled ? 'success' : 'warning' }}">{{ company.isEnabled ? 'OUI' : 'NON' }}</a>
+                                <a href="{{ path('admin_company_update_statut', {id: company.id}) }}" class="btn-sm badge-{{ company.isEnabled ? 'success' : 'warning' }}">{{ company.isEnabled ? 'OUI' : 'NON' }}</a>
                             </td>
-                            <td><label class="badge badge-warning">In progress</label></td>
+                            <td>
+                                <a href="{{ path('admin_company_details', {id:company.id}) }}" class="btn-sm badge-info">Details</a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(),
     ],
     normalizationContext: ['groups' => ['company:read', 'job:read']],
-    denormalizationContext: ['groups' => ['company:write', 'recruiter:write']],
+    denormalizationContext: ['groups' => ['company:write', 'recruiter:write'], 'enable_max_depth' => true],
     mercure: false
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]

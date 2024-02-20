@@ -41,9 +41,13 @@ class UserController extends AbstractController
     #[Route('/update/{id}/statut', name: 'statut')]
     public function changeUserStatus(User $user): Response
     {
-        $user->setIsEnabled(!$user->isIsEnabled());
-        $this->userRepository->save($user, true);
-        $this->addFlash('success', 'Modification éfféctuée avec success !');
+        try {
+            $user->setIsEnabled(!$user->isIsEnabled());
+            $this->userRepository->save($user, true);
+            $this->addFlash('success', 'Modification éfféctuée avec success !');
+        } catch (\Exception $exception) {
+            $this->addFlash('error', 'Modification non éfféctuée, details: '.$exception->getMessage());
+        }
 
         return $this->redirectToRoute('admin_user_list');
     }
@@ -62,7 +66,12 @@ class UserController extends AbstractController
     #[Route('/{id}/update', name: 'update')]
     public function updateUser(Request $request, User $user)
     {
-        $this->userHandler->updateThisUser($request, $user);
+        try {
+            $this->userHandler->updateThisUser($request, $user);
+            $this->addFlash('success', 'Modification éfféctuée avec success !');
+        } catch (\Exception $exception) {
+            $this->addFlash('error', 'Modification non éfféctuée, details: '.$exception->getMessage());
+        }
 
         return $this->redirectToRoute('admin_user_list');
     }
