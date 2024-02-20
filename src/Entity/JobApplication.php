@@ -34,7 +34,7 @@ class JobApplication
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['job:application:read', 'job:application:write'])]
+    #[Groups(['job:read', 'job:application:read', 'job:application:write'])]
     private ?User $candidat = null;
 
     #[ORM\ManyToOne(inversedBy: 'jobApplications')]
@@ -43,11 +43,11 @@ class JobApplication
     private ?Job $job = null;
 
     #[ORM\ManyToOne]
-    #[Groups(['job:application:read', 'job:application:write'])]
+    #[Groups(['job:read', 'job:application:read', 'job:application:write'])]
     private ?MediaObject $cv = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['job:application:read', 'job:application:write'])]
+    #[Groups(['job:read', 'job:application:read', 'job:application:write'])]
     private ?string $motivation = null;
 
     public function getId(): ?string
