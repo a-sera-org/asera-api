@@ -77,7 +77,7 @@ class Job
     private ?string $experiences = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobs')]
-    #[Groups(['job:read', 'job:write'])]
+    #[Groups(['job:read'])]
     private Collection $candidates;
 
     #[ORM\ManyToOne(inversedBy: 'jobs')]
@@ -85,17 +85,14 @@ class Job
     private ?Company $company = null;
 
     #[ORM\Column]
-    #[Assert\Type(type: JobType::class)]
     #[Groups(['job:read', 'job:write'])]
     private ?int $contract = 1;
 
     #[ORM\Column]
-    #[Assert\Type(type: WorkType::class)]
     #[Groups(['job:read', 'job:write'])]
     private ?int $workType = 1;
 
     #[ORM\Column]
-    #[Assert\Type(type: JobCategory::class)]
     #[Groups(['job:read', 'job:write'])]
     private ?int $jobCategory = 1;
 
