@@ -75,10 +75,6 @@ class Job
     #[Groups(['job:read', 'job:write'])]
     private ?string $experiences = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobs')]
-    #[Groups(['job:read'])]
-    private Collection $candidates;
-
     #[ORM\ManyToOne(inversedBy: 'jobs')]
     #[Groups(['job:read', 'job:write'])]
     private ?Company $company = null;
@@ -98,9 +94,12 @@ class Job
     #[ORM\Column(nullable: true)]
     private ?bool $isEnabled = true;
 
+    #[ORM\OneToMany(mappedBy: 'job', targetEntity: JobApplication::class, orphanRemoval: true)]
+    private Collection $jobApplications;
+
     public function __construct()
     {
-        $this->candidates = new ArrayCollection();
+        $this->jobApplications = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -168,30 +167,6 @@ class Job
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getCandidates(): Collection
-    {
-        return $this->candidates;
-    }
-
-    public function addCandidate(User $candidate): static
-    {
-        if (!$this->candidates->contains($candidate)) {
-            $this->candidates->add($candidate);
-        }
-
-        return $this;
-    }
-
-    public function removeCandidate(User $candidate): static
-    {
-        $this->candidates->removeElement($candidate);
-
-        return $this;
-    }
-
     public function getCompany(): ?Company
     {
         return $this->company;
@@ -248,6 +223,36 @@ class Job
     public function setIsEnabled(?bool $isEnabled): static
     {
         $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JobApplication>
+     */
+    public function getJobApplications(): Collection
+    {
+        return $this->jobApplications;
+    }
+
+    public function addJobApplication(JobApplication $jobApplication): static
+    {
+        if (!$this->jobApplications->contains($jobApplication)) {
+            $this->jobApplications->add($jobApplication);
+            $jobApplication->setJob($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobApplication(JobApplication $jobApplication): static
+    {
+        if ($this->jobApplications->removeElement($jobApplication)) {
+            // set the owning side to null (unless already changed)
+            if ($jobApplication->getJob() === $this) {
+                $jobApplication->setJob(null);
+            }
+        }
 
         return $this;
     }
