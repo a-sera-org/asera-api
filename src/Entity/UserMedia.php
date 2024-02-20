@@ -44,15 +44,15 @@ class UserMedia
     private ?Uuid $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write', 'job:read'])]
     private ?MediaObject $profilePicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write', 'job:read'])]
     private ?MediaObject $coverPicture = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write'])]
+    #[Groups(['user:media:read', 'user:media:write', 'user:read', 'user:write', 'job:read'])]
     private ?MediaObject $cv = null;
 
     #[ORM\OneToOne(mappedBy: 'media', cascade: ['persist', 'remove'])]
