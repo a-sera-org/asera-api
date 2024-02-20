@@ -37,7 +37,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 enum UserRoleType: string
 {
     case ROLE_USER = 'ROLE_USER';
-    case ROLE_RECRUITER = 'ROLE_RECRUTEUR';
+    case ROLE_RECRUITER = 'ROLE_RECRUITER';
 
     public function getId(): string
     {

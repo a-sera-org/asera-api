@@ -40,6 +40,7 @@ class AuthenticationSuccessListener
             'couverture_image' => $user->getMedia() ? $user->getMedia()->getCoverPicture() : '',
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
+            'roles' => $user->getRoles(),
         ];
 
         $event->setData($data);

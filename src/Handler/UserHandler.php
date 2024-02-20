@@ -8,6 +8,7 @@
 namespace App\Handler;
 
 use App\Entity\Contact;
+use App\Entity\Enum\UserRoleType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,14 +25,14 @@ class UserHandler
 
     public function handleSimpleUser(User $user): User
     {
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles([UserRoleType::ROLE_USER]);
 
         return $user;
     }
 
     public function handleRecruiter(User $user): User
     {
-        $user->setRoles(['ROLE_RECRUITER']);
+        $user->setRoles([UserRoleType::ROLE_RECRUITER]);
 
         return $user;
     }
