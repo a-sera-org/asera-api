@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -42,6 +46,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['job:read']],
     denormalizationContext: ['groups' => ['job:write']]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'company.name' => 'partial',
+    'title' => 'partial',
+    'description' => 'partial',
+])]
+#[ApiFilter(NumericFilter::class, properties: ['workType', 'contract', 'jobCategory'])]
+#[ApiFilter(RangeFilter::class, properties: ['salary'])]
 class Job
 {
     use TimestampableEntity;

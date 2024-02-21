@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -63,6 +65,13 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: 'username', message: 'There is already an account with this username')]
+#[ApiFilter(SearchFilter::class, properties: [
+    'username' => 'partial',
+    'firstname' => 'partial',
+    'lastname' => 'partial',
+    'contact.email' => 'partial',
+    'contact.phones' => 'partial',
+])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableEntity;
