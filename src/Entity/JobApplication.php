@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\JobApplicationRepository;
 use Doctrine\DBAL\Types\Types;
@@ -20,6 +22,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
     security: "is_granted('IS_AUTHENTICATED_FULLY')"
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
+#[ApiFilter(SearchFilter::class, properties: ['job' => 'exact'])]
 class JobApplication
 {
     use TimestampableEntity;
