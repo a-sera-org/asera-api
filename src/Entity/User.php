@@ -121,9 +121,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:write', 'recruiter:write'])]
     private ?string $plainPassword = null;
 
-    #[ORM\ManyToMany(targetEntity: Job::class, mappedBy: 'candidates')]
-    private Collection $jobs;
-
     #[ORM\OneToOne(inversedBy: 'owner', cascade: ['persist', 'remove'])]
     #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:read'])]
     private ?UserMedia $media = null;
@@ -138,7 +135,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->jobs = new ArrayCollection();
         $this->companies = new ArrayCollection();
     }
 
@@ -242,7 +238,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->username ?? '';
+        return $this->username;
     }
 
     public function getPlainPassword(): ?string
@@ -253,33 +249,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Job>
-     */
-    public function getJobs(): Collection
-    {
-        return $this->jobs;
-    }
-
-    public function addJob(Job $job): static
-    {
-        if (!$this->jobs->contains($job)) {
-            $this->jobs->add($job);
-            $job->addCandidate($this);
-        }
-
-        return $this;
-    }
-
-    public function removeJob(Job $job): static
-    {
-        if ($this->jobs->removeElement($job)) {
-            $job->removeCandidate($this);
-        }
 
         return $this;
     }
