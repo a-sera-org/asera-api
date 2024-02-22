@@ -74,7 +74,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * @throws NonUniqueResultException
-     * @throws NoResultException
      */
     public function loadUserByEmailOrUsername(string $emailOrUsername)
     {
@@ -87,7 +86,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                     'emailOrUsername' => $emailOrUsername,
                     'contact' => $contact,
                     'enable' => true,
-                ])->getQuery()->getSingleResult();
+                ])->getQuery()->getOneOrNullResult();
         }
 
         return $this->createQueryBuilder('u')
@@ -95,7 +94,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameters([
                 'emailOrUsername' => $emailOrUsername,
                 'enable' => true,
-            ])->getQuery()->getSingleResult();
+            ])->getQuery()->getOneOrNullResult();
     }
 
     /**
