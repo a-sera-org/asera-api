@@ -37,6 +37,7 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
         new Post(
             uriTemplate: '/register/user',
             controller: ApiUserController::class,
+            security: null,
             name: 'register_user',
             processor: UserPasswordHasher::class
         ),
@@ -44,6 +45,7 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
             uriTemplate: '/register/recruiter',
             controller: ApiRecruiterController::class,
             denormalizationContext: ['groups' => ['recruiter:write']],
+            security: null,
             name: 'register_recruiter',
             processor: UserPasswordHasher::class
         ),

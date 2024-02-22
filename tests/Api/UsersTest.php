@@ -22,7 +22,6 @@ class UsersTest extends ApiTestCase
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
     public function testCreateUser(): void
@@ -35,11 +34,10 @@ class UsersTest extends ApiTestCase
             ],
             'headers' => [
                 'Content-Type' => 'application/ld+json',
-                'Authorization' => sprintf('Bearer %s', $this->getToken()),
             ],
         ]);
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(201);
     }
 
     /**
