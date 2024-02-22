@@ -37,7 +37,7 @@ class MediaObjectTest extends ApiTestCase
         $file = new UploadedFile($_SERVER['DOCUMENT_ROOT'].'fixtures/Media/img.png', 'image.png');
         $client = self::createClient();
 
-        $client->request('POST', '/media_objects', [
+        $client->request('POST', '/api/media_objects', [
             'headers' => ['Content-Type' => 'multipart/form-data'],
             'extra' => [
                 'parameters' => [],

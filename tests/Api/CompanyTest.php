@@ -28,7 +28,7 @@ class CompanyTest extends ApiTestCase
      */
     public function testFailedCreateCompanies(): void
     {
-        static::createClient()->request('POST', '/companies', [
+        static::createClient()->request('POST', '/api/companies', [
             'json' => [
                 'name' => 'bonbon',
                 'address' => 'Tana',
@@ -59,7 +59,7 @@ class CompanyTest extends ApiTestCase
     public function testSuccessCreateCompanies(): void
     {
         $client = static::createClient();
-        $client->request('POST', '/companies', [
+        $client->request('POST', '/api/companies', [
             'json' => [
                 'name' => 'bonbon',
                 'address' => 'Tana',

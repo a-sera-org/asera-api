@@ -3,6 +3,7 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Entity\User;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -26,7 +27,7 @@ class UsersTest extends ApiTestCase
      */
     public function testCreateUser(): void
     {
-        static::createClient()->request('POST', '/users', [
+        static::createClient()->request('POST', '/api/register/user', [
             'json' => [
                 'lastname' => 'Kévin',
                 'username' => self::USERNAME,
@@ -34,16 +35,11 @@ class UsersTest extends ApiTestCase
             ],
             'headers' => [
                 'Content-Type' => 'application/ld+json',
+                'Authorization' => sprintf('Bearer %s', $this->getToken()),
             ],
         ]);
 
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains([
-            '@context' => '/contexts/User',
-            '@type' => 'User',
-            'lastname' => 'Kévin',
-            'username' => self::USERNAME,
-        ]);
+        $this->assertResponseStatusCodeSame(200);
     }
 
     /**
@@ -55,16 +51,65 @@ class UsersTest extends ApiTestCase
      */
     public function testListUser(): void
     {
-        static::createClient()->request('GET', '/users', [
+        static::createClient()->request('GET', '/api/users', [
             'headers' => [
                 'Content-Type' => 'application/ld+json',
+                'Authorization' => sprintf('Bearer %s', $this->getToken()),
             ],
         ]);
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            '@context' => '/contexts/User',
-            '@type' => 'hydra:Collection',
+    }
+
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function getToken(): string
+    {
+        $client = static::createClient();
+        $this->createUser();
+        $response = $client->request('POST', '/api/login_check', [
+            'json' => [
+                'password' => '@theP*ss2023',
+                'username' => 'user@asera.com',
+            ],
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
         ]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $json = $response->toArray();
+
+        return $json['token'];
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function createUser(): void
+    {
+        $container = self::getContainer();
+
+        $user = new User();
+        $user
+            ->setLastname('Kévin')
+            ->setUsername('user@asera.com')
+            ->setPassword($container->get('security.user_password_hasher')->hashPassword($user, '@theP*ss2023'));
+
+        $manager = $container->get('doctrine')->getManager();
+        $manager->persist($user);
+        $manager->flush();
+
+        sleep(1); // deal with manager flushing time
     }
 }

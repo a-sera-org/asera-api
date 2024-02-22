@@ -22,7 +22,7 @@ class ContactsTest extends ApiTestCase
      */
     public function testCreateContact(): void
     {
-        static::createClient()->request('POST', '/contacts', [
+        static::createClient()->request('POST', '/api/contacts', [
             'json' => [
                 'email' => 'test@test.com',
                 'phone' => '054 767 89',
