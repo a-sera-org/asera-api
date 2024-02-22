@@ -20,9 +20,9 @@
                             <td>{{ job.title }}</td>
                             <td>{{ job.company ? job.company.name : '' }}</td>
                             <td>
-                                <a href="{{ path('admin_job_update_statut', {id: job.id}) }}" class="badge badge-{{ job.isEnabled ? 'success' : 'warning' }}">{{ job.isEnabled ? 'OUI' : 'NON' }}</a>
+                                <a href="{{ path('admin_job_update_statut', {id: job.id}) }}" class="btn btn-sm badge-{{ job.isEnabled ? 'success' : 'warning' }}">{{ job.isEnabled ? 'OUI' : 'NON' }}</a>
                             </td>
-                            <td><label class="badge badge-warning">In progress</label></td>
+                            <td><a href="{{ path('admin_job_details', {id:job.id}) }}" class="btn btn-sm badge-warning">Details</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
