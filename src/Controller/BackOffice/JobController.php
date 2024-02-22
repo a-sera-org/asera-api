@@ -40,4 +40,10 @@ class JobController extends AbstractController
 
         return $this->redirectToRoute('admin_job_list');
     }
+
+    #[Route('/details/{id}', name: 'details', methods: 'GET')]
+    public function getJobDetails(Job $job)
+    {
+        return $this->render('backoffice/jobs/details.html.twig', ['job' => $job]);
+    }
 }

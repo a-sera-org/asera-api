@@ -40,6 +40,8 @@ enum JobType: int
     case CDD = 2;
     case CONSULTANT = 3;
     case FREELANCE = 5;
+    case STAGE = 6;
+    case ALTERNANT = 7;
 
     public function getId(): string
     {
