@@ -63,6 +63,7 @@ jobs:
       -
         name: Copy file for phpunit
         run: |
+          ls
           cp tests/Api/fixtures/template/img.png tests/Api/fixtures/Media/img.png
       -
         name: Run phpunit
