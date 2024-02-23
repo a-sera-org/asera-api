@@ -32,11 +32,35 @@ Le mot "Asera" puise ses racines dans trois termes malgaches :
     - Verify HTTP accessibility, go to: https://localhost
 ```
 
-## Before push
+# Without Docker
+## Requirements :
+
 ```
-    - Make sure that your code follow the PSR rules by launching : ./vendor/bin/php-cs-fixer fix
-    - Make sure you write unit test and it's green by bin/phpunit.
+- php8.2 with intl, mbstring, xml, pgsql, gd, zip enabled
+- Postgresql
+- Symfony cli
 ```
 
+## Installation
+```
+- Clone this repository
+- Copy .env to .env.local, change variables / DB_URL in if needle
+- Generate JWT key by : php bin/console lexik:jwt:generate-keypair
+- Run : symfony serve
+```
+
+## Post install
+```
+- Open indicated server port in cli, ex : localhost:8000 
+- Create admin user by running : php bin/console asera:user --create
+```
+
+
+## Before push
+```
+    - Make sure that your code follow the PSR and PHP8 coding styles and rules by launching : ./vendor/bin/php-cs-fixer fix
+    - Make sure you write unit test and it's green by bin/phpunit.
+    - Validate your DB schemas by running : php bin/console doctrine:schema:validate
+```
 
 *Code for fun :heart: !*
