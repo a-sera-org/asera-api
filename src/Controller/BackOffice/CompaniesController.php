@@ -64,9 +64,10 @@ class CompaniesController extends AbstractController
             return $this->redirectToRoute('admin_company_list');
         }
 
+        $company->removeCollaborator($user);
         $company->removeAdmin($user);
         $this->entityManager->flush();
-        $this->addFlash('success', 'Utilisateur supprimé sur l\'entreprise !');
+        $this->addFlash('success', 'Utilisateur supprimé dans l\'entreprise !');
 
         return $this->redirectToRoute('admin_company_list');
     }
