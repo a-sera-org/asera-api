@@ -127,10 +127,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:read'])]
     private ?UserMedia $media = null;
 
-    #[ORM\ManyToMany(targetEntity: Company::class, mappedBy: 'admins')]
-    #[Groups(['recruiter:write'])]
-    private Collection $companies;
-
     #[ORM\Column(nullable: true)]
     #[Groups(['user:read', 'user:write'])]
     private ?bool $isEnabled = true;
@@ -140,11 +136,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'admins')]
     private ?Company $ownCompany = null;
-
-    public function __construct()
-    {
-        $this->companies = new ArrayCollection();
-    }
 
     public function getId(): ?string
     {
@@ -274,33 +265,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMedia(?UserMedia $media): static
     {
         $this->media = $media;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Company>
-     */
-    public function getCompanies(): Collection
-    {
-        return $this->companies;
-    }
-
-    public function addCompany(Company $company): static
-    {
-        if (!$this->companies->contains($company)) {
-            $this->companies->add($company);
-            $company->addAdmin($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCompany(Company $company): static
-    {
-        if ($this->companies->removeElement($company)) {
-            $company->removeAdmin($this);
-        }
 
         return $this;
     }
