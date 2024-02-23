@@ -36,7 +36,7 @@ Le mot "Asera" puise ses racines dans trois termes malgaches :
 ## Requirements :
 
 ```
-- php8.2 with intl, mbstring, xml, pgsql, gd, zip enabled
+- php>8.2 with intl, mbstring, xml, pgsql, gd, zip enabled
 - Postgresql
 - Symfony cli
 ```
