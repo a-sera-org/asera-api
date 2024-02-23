@@ -135,6 +135,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     private ?bool $isEnabled = true;
 
+    #[ORM\ManyToOne(inversedBy: 'collaborators')]
+    private ?Company $company = null;
+
+    #[ORM\ManyToOne(inversedBy: 'admins')]
+    private ?Company $ownCompany = null;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
@@ -307,6 +313,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsEnabled(?bool $isEnabled): static
     {
         $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getOwnCompany(): ?Company
+    {
+        return $this->ownCompany;
+    }
+
+    public function setOwnCompany(?Company $ownCompany): static
+    {
+        $this->ownCompany = $ownCompany;
 
         return $this;
     }

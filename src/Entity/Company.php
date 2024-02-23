@@ -93,18 +93,23 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Job::class)]
     private Collection $jobs;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'companies')]
-    #[Groups(['company:write', 'company:read'])]
-    private Collection $admins;
-
     #[ORM\Column]
     #[Groups(['company:write', 'company:read'])]
     private ?bool $isEnabled = true;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
+    #[Groups(['company:write', 'company:read', 'recruiter:write'])]
+    private Collection $collaborators;
+
+    #[ORM\OneToMany(mappedBy: 'ownCompany', targetEntity: User::class)]
+    #[Groups(['company:write', 'company:read', 'recruiter:write'])]
+    private Collection $admins;
 
     public function __construct()
     {
         $this->contact = new ArrayCollection();
         $this->jobs = new ArrayCollection();
+        $this->collaborators = new ArrayCollection();
         $this->admins = new ArrayCollection();
     }
 
@@ -245,6 +250,48 @@ class Company
         return $this;
     }
 
+    public function isIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): static
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getCollaborators(): Collection
+    {
+        return $this->collaborators;
+    }
+
+    public function addCollaborator(User $collaborator): static
+    {
+        if (!$this->collaborators->contains($collaborator)) {
+            $this->collaborators->add($collaborator);
+            $collaborator->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollaborator(User $collaborator): static
+    {
+        if ($this->collaborators->removeElement($collaborator)) {
+            // set the owning side to null (unless already changed)
+            if ($collaborator->getCompany() === $this) {
+                $collaborator->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, User>
      */
@@ -257,6 +304,7 @@ class Company
     {
         if (!$this->admins->contains($admin)) {
             $this->admins->add($admin);
+            $admin->setOwnCompany($this);
         }
 
         return $this;
@@ -264,19 +312,12 @@ class Company
 
     public function removeAdmin(User $admin): static
     {
-        $this->admins->removeElement($admin);
-
-        return $this;
-    }
-
-    public function isIsEnabled(): ?bool
-    {
-        return $this->isEnabled;
-    }
-
-    public function setIsEnabled(bool $isEnabled): static
-    {
-        $this->isEnabled = $isEnabled;
+        if ($this->admins->removeElement($admin)) {
+            // set the owning side to null (unless already changed)
+            if ($admin->getOwnCompany() === $this) {
+                $admin->setOwnCompany(null);
+            }
+        }
 
         return $this;
     }

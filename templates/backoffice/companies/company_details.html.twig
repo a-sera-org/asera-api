@@ -69,7 +69,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for employe in company.admins %}
+                        {% for employe in company.admins|merge(company.collaborators) %}
                             <tr>
                                 <td>{{ employe.lastname }}</td>
                                 <td>{{ employe.firstname }}</td>
