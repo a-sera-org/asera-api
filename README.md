@@ -38,7 +38,8 @@ Le mot "Asera" puise ses racines dans trois termes malgaches :
 ```
 - php>8.2 with intl, mbstring, xml, pgsql, gd, zip enabled
 - Postgresql
-- Symfony cli
+- Symfony CLI
+- Node & Yarn CLI
 ```
 
 ## Installation
@@ -46,11 +47,13 @@ Le mot "Asera" puise ses racines dans trois termes malgaches :
 - Clone this repository
 - Copy .env to .env.local, change variables / DB_URL in if needle
 - Generate JWT key by : php bin/console lexik:jwt:generate-keypair
-- Run : symfony serve
 ```
 
 ## Post install
 ```
+- symfony serve
+- yarn install
+- yarn watch
 - Open indicated server port in cli, ex : localhost:8000 
 - Create admin user by running : php bin/console asera:user --create
 ```
