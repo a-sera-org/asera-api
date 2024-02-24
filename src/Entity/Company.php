@@ -105,6 +105,18 @@ class Company
     #[Groups(['company:write', 'company:read', 'recruiter:write'])]
     private Collection $admins;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'id')]
+    #[Gedmo\Blameable(on: 'create')]
+    #[Groups(['company:read'])]
+    private ?User $createdBy;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'updated_by', referencedColumnName: 'id')]
+    #[Gedmo\Blameable(on: 'update')]
+    #[Groups(['company:read'])]
+    private ?User $updatedBy;
+
     public function __construct()
     {
         $this->contact = new ArrayCollection();
@@ -318,6 +330,30 @@ class Company
                 $admin->setOwnCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): Company
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): Company
+    {
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }

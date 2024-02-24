@@ -108,11 +108,13 @@ class Job
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'id')]
     #[Gedmo\Blameable(on: 'create')]
+    #[Groups(['job:read'])]
     private ?User $createdBy;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'updated_by', referencedColumnName: 'id')]
     #[Gedmo\Blameable(on: 'update')]
+    #[Groups(['job:read'])]
     private ?User $updatedBy;
 
     #[ORM\OneToMany(mappedBy: 'job', targetEntity: JobApplication::class, orphanRemoval: true)]
@@ -275,6 +277,46 @@ class Job
                 $jobApplication->setJob(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param User|null $createdBy
+     *
+     * @return Job
+     */
+    public function setCreatedBy(?User $createdBy): Job
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * @param User|null $updatedBy
+     *
+     * @return Job
+     */
+    public function setUpdatedBy(?User $updatedBy): Job
+    {
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }
