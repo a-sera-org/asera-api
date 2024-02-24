@@ -8,6 +8,8 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th>Date de création</th>
+                        <th>Propriétaire</th>
                         <th>Nom de l'entreprise</th>
                         <th>Actif</th>
                         <th>Action</th>
@@ -16,12 +18,14 @@
                     <tbody>
                     {% for company in paginator.items %}
                         <tr>
+                            <td>{{ company.createdAt ? company.createdAt|date('d-my-Y') : '' }}</td>
+                            <td>{{ company.owner ? company.owner.username : '' }}</td>
                             <td>{{ company.name }}</td>
                             <td>
-                                <a href="{{ path('admin_company_update_statut', {id: company.id}) }}" class="btn-sm badge-{{ company.isEnabled ? 'success' : 'warning' }}">{{ company.isEnabled ? 'OUI' : 'NON' }}</a>
+                                <a href="{{ path('admin_company_update_statut', {id: company.id}) }}" class="btn btn-sm badge-{{ company.isEnabled ? 'success' : 'warning' }}">{{ company.isEnabled ? 'OUI' : 'NON' }}</a>
                             </td>
                             <td>
-                                <a href="{{ path('admin_company_details', {id:company.id}) }}" class="btn-sm badge-info">Details</a>
+                                <a href="{{ path('admin_company_details', {id:company.id}) }}" class="btn btn-sm badge-info">Details</a>
                             </td>
                         </tr>
                     {% endfor %}
