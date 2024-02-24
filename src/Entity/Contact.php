@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\TimestampableEntity;
 use Doctrine\DBAL\Types\Types;
@@ -26,6 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: 'email',
     message: 'This email is already used.'
 )]
+#[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class Contact
 {
     use TimestampableEntity;

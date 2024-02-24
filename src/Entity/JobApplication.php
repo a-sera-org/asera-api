@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -23,6 +24,7 @@ use Symfony\Component\Uid\Uuid;
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 #[ApiFilter(SearchFilter::class, properties: ['job' => 'exact'])]
+#[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class JobApplication
 {
     use TimestampableEntity;
