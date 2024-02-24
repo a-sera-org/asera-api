@@ -15,7 +15,7 @@ class UsersTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
 
-    public const USERNAME = 'doda';
+    public const USERNAME = 'asera';
     public const PASSWORD = '@theP*ss2023';
 
     /**
