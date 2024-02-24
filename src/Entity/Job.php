@@ -25,6 +25,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
@@ -70,7 +71,8 @@ class Job
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['job:read', 'job:write', 'job:application:read'])]
-    private ?string $salary = null;
+    #[Assert\Type(type: 'digit', message: 'La valeur doit être une chaîne de nombres positifs')]
+    private ?string $salary = '0';
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['job:read', 'job:write', 'job:application:read'])]
@@ -115,6 +117,9 @@ class Job
     #[Groups('job:read')]
     private Collection $jobApplications;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $devise = null;
+
     public function __construct()
     {
         $this->jobApplications = new ArrayCollection();
@@ -149,7 +154,7 @@ class Job
         return $this;
     }
 
-    public function getSalary(): ?string
+    public function getSalary(): ?int
     {
         return $this->salary;
     }
@@ -311,6 +316,18 @@ class Job
     public function setUpdatedBy(?User $updatedBy): Job
     {
         $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    public function getDevise(): ?string
+    {
+        return $this->devise;
+    }
+
+    public function setDevise(?string $devise): static
+    {
+        $this->devise = $devise;
 
         return $this;
     }

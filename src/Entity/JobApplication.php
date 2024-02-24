@@ -60,6 +60,12 @@ class JobApplication
     #[Groups(['job:application:read'])]
     private ?User $updatedBy;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $salary = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $devise = null;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -121,6 +127,30 @@ class JobApplication
     public function setUpdatedBy(?User $updatedBy): JobApplication
     {
         $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    public function getSalary(): ?int
+    {
+        return $this->salary;
+    }
+
+    public function setSalary(?int $salary): static
+    {
+        $this->salary = $salary;
+
+        return $this;
+    }
+
+    public function getDevise(): ?string
+    {
+        return $this->devise;
+    }
+
+    public function setDevise(?string $devise): static
+    {
+        $this->devise = $devise;
 
         return $this;
     }
