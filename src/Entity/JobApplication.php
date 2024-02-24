@@ -8,12 +8,12 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\JobApplicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: JobApplicationRepository::class)]
 #[ApiResource(
@@ -52,6 +52,16 @@ class JobApplication
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['job:read', 'job:application:read', 'job:application:write'])]
     private ?string $motivation = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'id')]
+    #[Gedmo\Blameable(on: 'create')]
+    private ?User $createdBy;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'updated_by', referencedColumnName: 'id')]
+    #[Gedmo\Blameable(on: 'update')]
+    private ?User $updatedBy;
 
     public function getId(): ?string
     {

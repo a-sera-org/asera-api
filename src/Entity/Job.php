@@ -105,6 +105,16 @@ class Job
     #[ORM\Column(nullable: true)]
     private ?bool $isEnabled = true;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'id')]
+    #[Gedmo\Blameable(on: 'create')]
+    private ?User $createdBy;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'updated_by', referencedColumnName: 'id')]
+    #[Gedmo\Blameable(on: 'update')]
+    private ?User $updatedBy;
+
     #[ORM\OneToMany(mappedBy: 'job', targetEntity: JobApplication::class, orphanRemoval: true)]
     #[Groups('job:read')]
     private Collection $jobApplications;
