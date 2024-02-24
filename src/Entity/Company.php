@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Entity\Traits\TimestampableEntity;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,7 +20,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -109,7 +109,7 @@ class Company
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'id')]
     #[Gedmo\Blameable(on: 'create')]
     #[Groups(['company:read'])]
-    private ?User $createdBy;
+    private ?User $owner;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'updated_by', referencedColumnName: 'id')]
@@ -334,14 +334,14 @@ class Company
         return $this;
     }
 
-    public function getCreatedBy(): ?User
+    public function getOwner(): ?User
     {
-        return $this->createdBy;
+        return $this->owner;
     }
 
-    public function setCreatedBy(?User $createdBy): Company
+    public function setOwner(?User $owner): Company
     {
-        $this->createdBy = $createdBy;
+        $this->owner = $owner;
 
         return $this;
     }

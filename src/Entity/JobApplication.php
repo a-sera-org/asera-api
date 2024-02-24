@@ -5,12 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use App\Entity\Traits\TimestampableEntity;
 use App\Repository\JobApplicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
@@ -35,11 +35,6 @@ class JobApplication
     #[Groups(['job:application:read'])]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['job:read', 'job:application:read', 'job:application:write'])]
-    private ?User $candidat = null;
-
     #[ORM\ManyToOne(inversedBy: 'jobApplications')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['job:application:read', 'job:application:write'])]
@@ -57,7 +52,7 @@ class JobApplication
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'id')]
     #[Gedmo\Blameable(on: 'create')]
     #[Groups(['job:application:read'])]
-    private ?User $createdBy;
+    private ?User $candidat = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'updated_by', referencedColumnName: 'id')]
@@ -118,39 +113,11 @@ class JobApplication
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param User|null $createdBy
-     *
-     * @return JobApplication
-     */
-    public function setCreatedBy(?User $createdBy): JobApplication
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * @return User|null
-     */
     public function getUpdatedBy(): ?User
     {
         return $this->updatedBy;
     }
 
-    /**
-     * @param User|null $updatedBy
-     *
-     * @return JobApplication
-     */
     public function setUpdatedBy(?User $updatedBy): JobApplication
     {
         $this->updatedBy = $updatedBy;
