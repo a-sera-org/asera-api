@@ -118,6 +118,7 @@ class Job
     private Collection $jobApplications;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?string $devise = null;
 
     public function __construct()
