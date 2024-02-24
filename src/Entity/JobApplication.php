@@ -61,9 +61,11 @@ class JobApplication
     private ?User $updatedBy;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:application:read', 'job:application:write'])]
     private ?int $salary = null;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Groups(['job:application:read', 'job:application:write'])]
     private ?string $devise = null;
 
     public function getId(): ?string
