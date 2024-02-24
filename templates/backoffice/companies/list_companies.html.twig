@@ -18,7 +18,7 @@
                     <tbody>
                     {% for company in paginator.items %}
                         <tr>
-                            <td>{{ company.createdAt ? company.createdAt|date('d-my-Y') : '' }}</td>
+                            <td>{{ company.createdAt ? company.createdAt|date('d-m-Y') : '' }}</td>
                             <td>{{ company.owner ? company.owner.username : '' }}</td>
                             <td>{{ company.name }}</td>
                             <td>
