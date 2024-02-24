@@ -98,6 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Contact $contact = null;
 
     #[ORM\Column(length: 100, unique: true)]
+    #[Assert\Length(min: 5, max: 20)]
     #[Groups(['user:read', 'user:write', 'recruiter:write', 'job:application:read', 'job:read'])]
     private ?string $username = null;
 

@@ -8,6 +8,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Date de création</th>
                             <th>Nom d'utilisateur</th>
                             <th>Nom</th>
                             <th>Prénom</th>
@@ -19,6 +20,7 @@
                     <tbody>
                     {% for user in paginator.items %}
                         <tr>
+                            <td>{{ user.createdAt ? user.createdAt|date('d-m-Y') : '' }}</td>
                             <td>{{ user.username }}</td>
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.firstname }}</td>

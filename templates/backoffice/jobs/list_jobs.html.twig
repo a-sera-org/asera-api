@@ -8,8 +8,10 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th>Date de création</th>
                         <th>Poste</th>
                         <th>Nom de l'entreprise</th>
+                        <th>Créateur</th>
                         <th>Actif</th>
                         <th>Action</th>
                     </tr>
@@ -17,8 +19,10 @@
                     <tbody>
                     {% for job in paginator.items %}
                         <tr>
+                            <td>{{ job.createdAt ? job.createdAt|date('d-m-Y') : '' }}</td>
                             <td>{{ job.title }}</td>
                             <td>{{ job.company ? job.company.name : '' }}</td>
+                            <td>{{ job.createdBy ? job.createdBy.username : '' }}</td>
                             <td>
                                 <a href="{{ path('admin_job_update_statut', {id: job.id}) }}" class="btn btn-sm badge-{{ job.isEnabled ? 'success' : 'warning' }}">{{ job.isEnabled ? 'OUI' : 'NON' }}</a>
                             </td>
