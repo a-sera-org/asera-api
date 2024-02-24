@@ -155,7 +155,7 @@ class Job
         return $this;
     }
 
-    public function getSalary(): ?int
+    public function getSalary(): ?string
     {
         return $this->salary;
     }
