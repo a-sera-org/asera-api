@@ -16,7 +16,6 @@ use App\Entity\Traits\TimestampableEntity;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -44,7 +43,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity(fields: 'name', message: 'Name already in use')]
 #[ApiFilter(SearchFilter::class, properties: [
     'name' => 'partial',
-    'address' => 'partial',
+    'address.city' => 'partial',
+    'address.country' => 'partial',
     'nif' => 'exact',
     'stat' => 'exact',
 ])]
@@ -63,10 +63,6 @@ class Company
     #[ORM\Column(length: 200)]
     #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
     private ?string $name = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
-    private ?string $address = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Contact::class, cascade: ['persist', 'remove'])]
     #[Groups(['company:write', 'company:read', 'job:read', 'recruiter:write'])]
@@ -117,6 +113,14 @@ class Company
     #[Groups(['company:read'])]
     private ?User $updatedBy;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['company:read', 'job:read'])]
+    private ?bool $isVerified = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['company:write', 'company:read'])]
+    private ?Addresse $address = null;
+
     public function __construct()
     {
         $this->contact = new ArrayCollection();
@@ -138,18 +142,6 @@ class Company
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): static
-    {
-        $this->address = $address;
 
         return $this;
     }
@@ -354,6 +346,30 @@ class Company
     public function setUpdatedBy(?User $updatedBy): Company
     {
         $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(?bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Addresse
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Addresse $address): static
+    {
+        $this->address = $address;
 
         return $this;
     }

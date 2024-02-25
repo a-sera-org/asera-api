@@ -13,6 +13,7 @@ use App\Repository\CompanyRepository;
 use App\Utils\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,7 +41,7 @@ class CompaniesController extends AbstractController
     }
 
     #[Route('/update/{id}/statut', name: 'update_statut')]
-    public function changeStatut(Company $company)
+    public function changeStatut(Company $company): RedirectResponse
     {
         $company->setIsEnabled(!$company->isIsEnabled());
         $this->entityManager->flush();

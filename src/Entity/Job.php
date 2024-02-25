@@ -121,6 +121,14 @@ class Job
     #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?string $devise = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
+    private ?string $country = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
+    private ?string $city = null;
+
     public function __construct()
     {
         $this->jobApplications = new ArrayCollection();
@@ -329,6 +337,30 @@ class Job
     public function setDevise(?string $devise): static
     {
         $this->devise = $devise;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): static
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }

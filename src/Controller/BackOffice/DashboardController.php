@@ -21,7 +21,6 @@ class DashboardController extends AbstractController
     #[Route('dashboard', name: 'dashboard')]
     public function dashboard(DashboardManager $dashboardManager): Response
     {
-        return $this->render(
-            'backoffice/dashboard/index.html.twig', $dashboardManager->getDashboardPayload());
+        return $this->render('backoffice/dashboard/index.html.twig', $dashboardManager->getDashboardPayload());
     }
 }
