@@ -44,15 +44,27 @@
 						</div>
 					</div>
 					<div class="form-group row">
+						<label for="email" class="col-sm-3 col-form-label">Catégorie</label>
+						<div class="col-sm-9">
+							<input type="text" id="category" name="job_category" readonly class="form-control" value="{{ jobCategory }}">
+						</div>
+					</div>
+					<div class="form-group row">
 						<label for="linkedin" class="col-sm-3 col-form-label">Salaire</label>
 						<div class="col-sm-9">
 							<input type="text" id="linkedin" name="contact[linkedin]" readonly class="form-control" value="{{ job.salary }}">
 						</div>
 					</div>
 					<div class="form-group row">
+						<label for="linkedin" class="col-sm-3 col-form-label">Type d'emploi</label>
+						<div class="col-sm-9">
+							<input type="text" id="work_type" name="work_type" readonly class="form-control" value="{{ workType }}">
+						</div>
+					</div>
+					<div class="form-group row">
 						<label for="linkedin" class="col-sm-3 col-form-label">Type de contract</label>
 						<div class="col-sm-9">
-							<input type="text" id="linkedin" name="contact[linkedin]" readonly class="form-control" value="{{ job.contract }}">
+							<input type="text" id="linkedin" name="contact[linkedin]" readonly class="form-control" value="{{ jobType }}">
 						</div>
 					</div>
 				</form>
@@ -62,7 +74,7 @@
 	<div class="col-md-12 grid-margin stretch-card">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title text-capitalize">Liste des candidatures de l'entreprise</h4>
+				<h4 class="card-title text-capitalize">Liste des candidatures du poste</h4>
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
