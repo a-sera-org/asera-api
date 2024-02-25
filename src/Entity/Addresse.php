@@ -35,9 +35,6 @@ class Addresse
     #[Groups(['company:write', 'company:read'])]
     private ?string $zip = null;
 
-    #[ORM\ManyToOne(inversedBy: 'address')]
-    private ?Company $company = null;
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'id')]
     #[Gedmo\Blameable(on: 'create')]
@@ -87,18 +84,6 @@ class Addresse
     public function setZip(?string $zip): static
     {
         $this->zip = $zip;
-
-        return $this;
-    }
-
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): static
-    {
-        $this->company = $company;
 
         return $this;
     }
