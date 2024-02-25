@@ -39,12 +39,12 @@ enum JobCategory: int
     case SOFTWARE_ENGINEER = 1;
     case ADMIN_SYS = 2;
     case DEVOPS = 3;
-    case PRODUCT_OWNER = 5;
-    case IT_HARDWARE = 6;
-    case COMMUNITY_MANAGER = 7;
-    case ADMINISTRATION = 8;
-    case AI = 9;
-    case DATA = 10;
+    case PRODUCT_OWNER = 4;
+    case IT_HARDWARE = 5;
+    case COMMUNITY_MANAGER = 6;
+    case ADMINISTRATION = 7;
+    case AI = 8;
+    case DATA = 9;
 
     public function getId(): string
     {
