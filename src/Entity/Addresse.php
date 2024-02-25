@@ -93,7 +93,7 @@ class Addresse
         return $this->createdBy;
     }
 
-    public function setCreatedBy(?User $createdBy): CompanyAddress
+    public function setCreatedBy(?User $createdBy): Addresse
     {
         $this->createdBy = $createdBy;
 
@@ -105,7 +105,7 @@ class Addresse
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(?User $updatedBy): CompanyAddress
+    public function setUpdatedBy(?User $updatedBy): Addresse
     {
         $this->updatedBy = $updatedBy;
 
