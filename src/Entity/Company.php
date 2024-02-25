@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
@@ -48,6 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'nif' => 'exact',
     'stat' => 'exact',
 ])]
+#[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class Company
 {
     use SoftDeleteableEntity;

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -31,6 +33,7 @@ use Symfony\Component\Uid\Uuid;
     denormalizationContext: ['groups' => ['user:media:write', 'user:write']],
     mercure: false
 )]
+#[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class UserMedia
 {
     use TimestampableEntity;
