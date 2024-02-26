@@ -29,16 +29,6 @@ class UserController extends AbstractController
     public function listAllUsers(Request $request, DataTableFactory $dataTableFactory): Response
     {
         $query = $this->userRepository->findAllUsers();
-        $table = $dataTableFactory->create()
-            ->add('createdAt', DateTimeColumn::class, ['format' => 'd-m-Y'])
-            ->add('username', TextColumn::class)
-            ->add('lastname', TextColumn::class)
-            ->add('firstname', TextColumn::class)
-            ->add('contact', TextColumn::class)
-
-        if ($table->isCallback()) {
-            return $table->getResponse();
-        }
 
         $table = $this->createDataTableFromType(PresidentsTableType::class)
             ->handleRequest($request);
