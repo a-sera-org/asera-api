@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+
+
 #[Route('/admin/users', name: 'admin_user_')]
 class UserController extends AbstractController
 {
@@ -24,9 +26,23 @@ class UserController extends AbstractController
     }
 
     #[Route('/list', name: 'list')]
-    public function listAllUsers(Request $request): Response
+    public function listAllUsers(Request $request, DataTableFactory $dataTableFactory): Response
     {
         $query = $this->userRepository->findAllUsers();
+        $table = $dataTableFactory->create()
+            ->add('createdAt', DateTimeColumn::class, ['format' => 'd-m-Y'])
+            ->add('username', TextColumn::class)
+            ->add('lastname', TextColumn::class)
+            ->add('firstname', TextColumn::class)
+            ->add('contact', TextColumn::class)
+
+        if ($table->isCallback()) {
+            return $table->getResponse();
+        }
+
+        $table = $this->createDataTableFromType(PresidentsTableType::class)
+            ->handleRequest($request);
+
         $paginator = $this->paginator->paginate($query, $request->query->getInt('page', 1));
 
         return $this->render(
@@ -34,6 +50,7 @@ class UserController extends AbstractController
             [
                 'paginator' => $paginator,
                 'menu_user' => true,
+                'datatable' => $table,
             ]
         );
     }
