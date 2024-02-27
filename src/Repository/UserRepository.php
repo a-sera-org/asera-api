@@ -125,4 +125,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder('u')
             ->getQuery();
     }
+
+    public function resetPassword(User $user, string $newPassword): void
+    {
+        $user->setPassword($newPassword);
+        $this->save($user);
+    }
 }
