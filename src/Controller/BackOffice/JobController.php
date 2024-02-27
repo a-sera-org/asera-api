@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author julienrajerison5@gmail.com jul
  *
@@ -14,11 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/admin/job', name: 'admin_job_')]
 class JobController extends AbstractController
 {
-    public function __construct(private readonly JobRepository $jobRepository, private readonly Paginator $paginator)
+    public function __construct(private readonly JobRepository $jobRepository, private readonly Paginator $paginator,  private readonly TranslatorInterface $translator)
     {
     }
 
@@ -44,6 +46,14 @@ class JobController extends AbstractController
     #[Route('/details/{id}', name: 'details', methods: 'GET')]
     public function getJobDetails(Job $job)
     {
-        return $this->render('backoffice/jobs/details.html.twig', ['job' => $job]);
+        $job_category = $this->translator->trans('job.category.'.$job->getJobCategory().'.label');
+        $job_type = $this->translator->trans('job.type.'.$job->getContract().'.label');
+        $work_type = $this->translator->trans('job.workType.'.$job->getWorkType().'.label');
+        return $this->render('backoffice/jobs/details.html.twig', [
+            'job' => $job,
+            'jobCategory' => $job_category,
+            'jobType' => $job_type,
+            'workType' => $work_type
+        ]);
     }
 }

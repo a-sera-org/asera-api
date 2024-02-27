@@ -1,0 +1,40 @@
+job:
+  category: 
+    1: 
+      label: Ingénieur informatique
+    2:
+      label: Administration réseau
+    3: 
+      label: Devops
+    4:
+      label: Product Owner
+    5:
+      label: Maintenance informatique
+    6:
+      label: Community manager
+    7:
+      label: Administration
+    8:
+      label: Intelligence Artificielle
+    9:
+      label: Base des données
+  type: 
+    1: 
+      label: Contrat indeterminé
+    2: 
+      label: Contrat determiné
+    3:
+      label: Consultant
+    4: 
+      label: Freelance
+    5: 
+      label: Stage
+    6:
+      label: Alternant
+  workType:
+    1:
+      label: Hybride
+    2:
+      label: En ligne
+    3:
+      label: Télétravail
