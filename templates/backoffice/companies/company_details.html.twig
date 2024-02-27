@@ -1,88 +1,97 @@
 {% extends 'backoffice/base_admin.html.twig' %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('ckeditor') }}
+{% endblock %}
 
 {% block body %}
-    <div class="col-md-6 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Informations de l'entreprise</h4>
-                <form method="post" class="forms-sample">
-                    <div class="form-group">
-                        <label for="username">Nom</label>
-                        <input type="text" value="{{ company.name }}" name="username" readonly class="form-control" id="username">
-                    </div>
-                    <div class="form-group">
-                        <label for="lastname">NIF</label>
-                        <input type="text" id="lastname" class="form-control" name="lastname"  readonly value="{{ company.nif }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname">STAT</label>
-                        <input type="text" id="firstname" class="form-control" name="firstname" readonly  value="{{ company.stat }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname">Date de création</label>
-                        <input type="text" id="firstname" class="form-control" name="firstname" readonly  value="{{ company.createdAt|date('d-m-Y') }}">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Contact</h4>
-                {% for contact in company.contact %}
-                    <div class="form-group">
-                        <label for="firstname">Propriétaire</label>
-                        <input type="text" id="firstname" class="form-control" name="firstname" readonly  value="{{ company.owner ? company.owner.username : '' }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname">Email</label>
-                        <input type="text" id="firstname" class="form-control" name="firstname" readonly  value="{{ contact.email }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname">Téléphone</label>
-                        <input type="text" id="firstname" class="form-control" name="firstname" readonly  value="{{ contact.phones ? contact.phones|join(',') }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname">Page LinkedIn</label>
-                        <input type="text" id="firstname" class="form-control" name="firstname" readonly  value="{{ contact.linkedin ? contact.linkedin : ''}}">
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+	<div class="col-md-6 grid-margin stretch-card">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">Informations de l'entreprise</h4>
+				<form method="post" class="forms-sample">
+					<div class="form-group">
+						<label for="username">Nom</label>
+						<input type="text" value="{{ company.name }}" name="username" readonly class="form-control" id="username">
+					</div>
+					<div class="form-group">
+						<label for="company_name">Description</label>
+						<textarea name="description" id="entrepriseDescription" readonly class="form-control">
+							{{ company.description }}
+						</textarea>
+					</div>
+					<div class="form-group">
+						<label for="lastname">NIF</label>
+						<input type="text" id="lastname" class="form-control" name="lastname" readonly value="{{ company.nif }}">
+					</div>
+					<div class="form-group">
+						<label for="firstname">STAT</label>
+						<input type="text" id="firstname" class="form-control" name="firstname" readonly value="{{ company.stat }}">
+					</div>
+					<div class="form-group">
+						<label for="firstname">Date de création</label>
+						<input type="text" id="firstname" class="form-control" name="firstname" readonly value="{{ company.createdAt|date('d-m-Y') }}">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 grid-margin stretch-card">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">Contact</h4>
+				{% for contact in company.contact %}
+					<div class="form-group">
+						<label for="firstname">Propriétaire</label>
+						<input type="text" id="firstname" class="form-control" name="firstname" readonly value="{{ company.owner ? company.owner.username : '' }}">
+					</div>
+					<div class="form-group">
+						<label for="firstname">Email</label>
+						<input type="text" id="firstname" class="form-control" name="firstname" readonly value="{{ contact.email }}">
+					</div>
+					<div class="form-group">
+						<label for="firstname">Téléphone</label>
+						<input type="text" id="firstname" class="form-control" name="firstname" readonly value="{{ contact.phones ? contact.phones|join(',') }}">
+					</div>
+					<div class="form-group">
+						<label for="firstname">Page LinkedIn</label>
+						<input type="text" id="firstname" class="form-control" name="firstname" readonly value="{{ contact.linkedin ? contact.linkedin : ''}}">
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title text-capitalize">Liste des employées de l'entreprise</h4>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Date de création</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for employe in company.admins|merge(company.collaborators) %}
-                            <tr>
-                                <td>{{ employe.createdAt|date('d-m-Y') }}</td>
-                                <td>{{ employe.lastname }}</td>
-                                <td>{{ employe.firstname }}</td>
-                                <td>{{ employe.contact ? employe.contact.email : '' }}</td>
-                                <td>
-                                    <a href="{{ path('admin_company_remove_user', {company:company.id, user:employe.id}) }}" class="btn-sm badge-info">Supprimer l'association</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="col-md-12 grid-margin stretch-card">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title text-capitalize">Liste des employées de l'entreprise</h4>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Date de création</th>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Email</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for employe in company.admins|merge(company.collaborators) %}
+								<tr>
+									<td>{{ employe.createdAt|date('d-m-Y') }}</td>
+									<td>{{ employe.lastname }}</td>
+									<td>{{ employe.firstname }}</td>
+									<td>{{ employe.contact ? employe.contact.email : '' }}</td>
+									<td>
+										<a href="{{ path('admin_company_remove_user', {company:company.id, user:employe.id}) }}" class="btn-sm badge-info">Supprimer l'association</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

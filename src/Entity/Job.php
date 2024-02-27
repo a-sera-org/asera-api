@@ -46,6 +46,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     'company.name' => 'partial',
     'title' => 'partial',
     'description' => 'partial',
+    'company' => 'exact',
+    'isEnabled' => 'exact'
 ])]
 #[ApiFilter(NumericFilter::class, properties: ['workType', 'contract', 'jobCategory'])]
 #[ApiFilter(RangeFilter::class, properties: ['salary'])]
@@ -101,6 +103,7 @@ class Job
     private ?int $jobCategory = 1;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?bool $isEnabled = true;
 
     #[ORM\ManyToOne(targetEntity: User::class)]

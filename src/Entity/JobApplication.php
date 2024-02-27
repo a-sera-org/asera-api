@@ -23,7 +23,12 @@ use Symfony\Component\Uid\Uuid;
     security: "is_granted('IS_AUTHENTICATED_FULLY')"
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
-#[ApiFilter(SearchFilter::class, properties: ['job' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: [
+    'job' => 'exact',
+    'candidat' => 'exact',
+    'candidat.email' => 'partial',
+    'candidat.username' => 'partial',
+])]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class JobApplication
 {
@@ -69,6 +74,10 @@ class JobApplication
     #[ORM\Column(length: 10, nullable: true)]
     #[Groups(['job:application:read', 'job:application:write'])]
     private ?string $devise = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['job:application:read', 'job:application:write'])]
+    private ?bool $isRejected = null;
 
     public function getId(): ?string
     {
@@ -155,6 +164,18 @@ class JobApplication
     public function setDevise(?string $devise): static
     {
         $this->devise = $devise;
+
+        return $this;
+    }
+
+    public function isIsRejected(): ?bool
+    {
+        return $this->isRejected;
+    }
+
+    public function setIsRejected(?bool $isRejected): static
+    {
+        $this->isRejected = $isRejected;
 
         return $this;
     }
