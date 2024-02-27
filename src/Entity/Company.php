@@ -17,6 +17,7 @@ use App\Entity\Traits\TimestampableEntity;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -48,6 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'address.country' => 'partial',
     'nif' => 'exact',
     'stat' => 'exact',
+    'description' => 'partial',
 ])]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class Company
@@ -122,6 +124,10 @@ class Company
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[Groups(['company:write', 'company:read'])]
     private ?Addresse $address = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['company:write', 'company:read'])]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -372,6 +378,18 @@ class Company
     public function setAddress(?Addresse $address): static
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
