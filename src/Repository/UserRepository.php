@@ -66,6 +66,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
+    public function updatePassword(User $user, string $newHashedPassword): void
+    {
+        if (!$user instanceof User) {
+            throw new \InvalidArgumentException('Invalid user class.');
+        }
+    
+        $user->setPassword($newHashedPassword);
+        
+        $this->save($user);
+    }
 
     public function getEntityManagerIn(): EntityManagerInterface
     {
