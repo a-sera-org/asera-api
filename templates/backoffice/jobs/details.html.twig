@@ -1,4 +1,7 @@
 {% extends 'backoffice/base_admin.html.twig' %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('ckeditor') }}
+{% endblock %}
 
 {% block body %}
     <div class="col-md-6 grid-margin stretch-card">
@@ -36,9 +39,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="phoneNumber" class="col-sm-3 col-form-label">Description</label>
+                        <label for="description" class="col-sm-3 col-form-label">Description</label>
                         <div class="col-sm-9">
-                            <textarea type="tel" id="phoneNumber" name="contact[phones][]"  readonly class="form-control">
+                            <textarea name="description" id="editor" readonly class="form-control">
                                 {{ job.description }}
                             </textarea>
                         </div>
