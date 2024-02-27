@@ -76,6 +76,7 @@ class JobApplication
     private ?string $devise = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:application:read', 'job:application:write'])]
     private ?bool $isRejected = null;
 
     public function getId(): ?string
