@@ -46,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'company.name' => 'partial',
     'title' => 'partial',
     'description' => 'partial',
+    'company' => 'exact',
 ])]
 #[ApiFilter(NumericFilter::class, properties: ['workType', 'contract', 'jobCategory'])]
 #[ApiFilter(RangeFilter::class, properties: ['salary'])]
