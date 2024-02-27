@@ -23,7 +23,12 @@ use Symfony\Component\Uid\Uuid;
     security: "is_granted('IS_AUTHENTICATED_FULLY')"
 )]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
-#[ApiFilter(SearchFilter::class, properties: ['job' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: [
+    'job' => 'exact',
+    'candidat' => 'exact',
+    'candidat.email' => 'partial',
+    'candidat.username' => 'partial',
+])]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class JobApplication
 {
