@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/users', name: 'admin_user_')]
+    #[Route('/admin/users', name: 'admin_user_')]
 class UserController extends AbstractController
 {
     public function __construct(private UserHandler $userHandler, private UserRepository $userRepository, private Paginator $paginator)
