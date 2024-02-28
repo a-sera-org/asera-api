@@ -66,16 +66,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
-    public function updatePassword(User $user, string $newHashedPassword): void
-    {
-        if (!$user instanceof User) {
-            throw new \InvalidArgumentException('Invalid user class.');
-        }
-    
-        $user->setPassword($newHashedPassword);
-        
-        $this->save($user);
-    }
 
     public function getEntityManagerIn(): EntityManagerInterface
     {
@@ -126,9 +116,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery();
     }
 
-    public function resetPassword(User $user, string $newPassword): void
+    /*public function resetPassword(string $username, string $newPlainPassword): void
     {
-        $user->setPassword($newPassword);
-        $this->save($user);
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user = $userRepository->findOneBy(['username' => $username]);
+
+
+        if (!$user instanceof User) {
+            throw new \InvalidArgumentException('Invalid user.');
+        }
+        $user->setPlainPassword($newPlainPassword);
+        $this->encodeAndSetPassword($user);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }*/
+    public function findByUsername(string $username): ?User
+    {
+        return $this->findOneBy(['username' => $username]);
     }
 }

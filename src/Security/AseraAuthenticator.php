@@ -32,6 +32,7 @@ class AseraAuthenticator extends AbstractLoginFormAuthenticator
         $username = $request->request->get('username', '');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
+
         return new Passport(
             new UserBadge($username, function ($username) {
                 return $this->userRepository->loadUserByEmailOrUsername($username);

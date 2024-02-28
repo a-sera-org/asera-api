@@ -14,12 +14,12 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Controller\Api\ApiRecruiterController;
 use App\Controller\Api\ApiUserController;
+use App\Entity\Traits\TimestampableEntity;
 use App\State\UserPasswordHasher;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-use App\Entity\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -117,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ?string $salt = null;
 
-    #[Assert\PasswordStrength([
+    #[PasswordStrength([
         'minScore' => PasswordStrength::STRENGTH_WEAK,
         'message' => 'Your password is too easy to guess. Asera\'s security policy requires to use a stronger password.',
     ])]

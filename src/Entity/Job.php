@@ -47,7 +47,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'title' => 'partial',
     'description' => 'partial',
     'company' => 'exact',
-    'isEnabled' => 'exact'
+    'isEnabled' => 'exact',
 ])]
 #[ApiFilter(NumericFilter::class, properties: ['workType', 'contract', 'jobCategory'])]
 #[ApiFilter(RangeFilter::class, properties: ['salary'])]
@@ -294,19 +294,11 @@ class Job
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }
 
-    /**
-     * @param User|null $createdBy
-     *
-     * @return Job
-     */
     public function setCreatedBy(?User $createdBy): Job
     {
         $this->createdBy = $createdBy;
@@ -314,19 +306,11 @@ class Job
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getUpdatedBy(): ?User
     {
         return $this->updatedBy;
     }
 
-    /**
-     * @param User|null $updatedBy
-     *
-     * @return Job
-     */
     public function setUpdatedBy(?User $updatedBy): Job
     {
         $this->updatedBy = $updatedBy;
