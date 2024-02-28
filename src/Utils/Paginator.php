@@ -20,13 +20,6 @@ class Paginator
 
     private $items;
 
-    /**
-     * @param Query|QueryBuilder $query
-     * @param int                $page
-     * @param int                $limit
-     *
-     * @return Paginator
-     */
     public function paginate(Query|QueryBuilder $query, int $page = 1, int $limit = 10): Paginator
     {
         $paginator = new OrmPaginator($query);

@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "gedmo/doctrine-extensions": "^3.14",
+        "lcobucci/jwt": "^5.2",
         "lexik/jwt-authentication-bundle": "^2.20",
         "martin-georgiev/postgresql-for-doctrine": "^2.3",
         "nelmio/cors-bundle": "^2.2",

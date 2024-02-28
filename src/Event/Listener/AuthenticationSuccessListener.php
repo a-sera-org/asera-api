@@ -15,10 +15,6 @@ class AuthenticationSuccessListener
 {
     /**
      * Add supplement data.
-     *
-     * @param AuthenticationSuccessEvent $event
-     *
-     * @return void
      */
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event): void
     {

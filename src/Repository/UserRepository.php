@@ -115,4 +115,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder('u')
             ->getQuery();
     }
+
+    /*public function resetPassword(string $username, string $newPlainPassword): void
+    {
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user = $userRepository->findOneBy(['username' => $username]);
+
+
+        if (!$user instanceof User) {
+            throw new \InvalidArgumentException('Invalid user.');
+        }
+        $user->setPlainPassword($newPlainPassword);
+        $this->encodeAndSetPassword($user);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }*/
+    public function findByUsername(string $username): ?User
+    {
+        return $this->findOneBy(['username' => $username]);
+    }
 }

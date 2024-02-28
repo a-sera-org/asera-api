@@ -12,7 +12,6 @@ use App\Entity\Job;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use JetBrains\PhpStorm\NoReturn;
 
 class DashboardManager
 {
