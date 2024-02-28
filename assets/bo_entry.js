@@ -13,3 +13,5 @@ require('./template/assets/js/jquery.cookie.js');
 require('./template/assets/js/dashboard.js');
 require('datatables.net');
 require('datatables.net-bs4');
+
+$('#datatable').DataTable();
