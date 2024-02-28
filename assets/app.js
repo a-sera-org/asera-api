@@ -6,4 +6,9 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import './styles/app.scss';
+
+import 'datatables.net';
+import 'datatables.net-bs4';
+
+$("#datatable").DataTable();

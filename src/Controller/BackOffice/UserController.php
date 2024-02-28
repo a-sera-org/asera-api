@@ -26,13 +26,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/list', name: 'list')]
-    public function listAllUsers(Request $request, DataTableFactory $dataTableFactory): Response
+    public function listAllUsers(Request $request): Response
     {
         $query = $this->userRepository->findAllUsers();
-
-        $table = $this->createDataTableFromType(PresidentsTableType::class)
-            ->handleRequest($request);
-
         $paginator = $this->paginator->paginate($query, $request->query->getInt('page', 1));
 
         return $this->render(
@@ -40,7 +36,6 @@ class UserController extends AbstractController
             [
                 'paginator' => $paginator,
                 'menu_user' => true,
-                'datatable' => $table,
             ]
         );
     }
