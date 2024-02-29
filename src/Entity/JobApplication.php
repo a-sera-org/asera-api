@@ -76,7 +76,7 @@ class JobApplication
     private ?string $devise = null;
 
     #[ORM\Column()]
-    #[Groups(['job:read', 'job:write', 'job:application:read'])]
+    #[Groups(['job:application:read', 'job:application:write', 'job:application:read'])]
     private ?int $status = 1;
 
     public function getId(): ?string
