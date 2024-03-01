@@ -35,23 +35,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Put(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Patch(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')", uriTemplate: "/companies/{id}/add-collaborator"),
+        new Delete(security: "is_granted('IS_AUTHENTICATED_FULLY')", uriTemplate: "/companies/{id}/remove-collaborator/{collaboratorId}"),
         new Get(),
         new GetCollection(),
     ],
-    normalizationContext: ['groups' => ['company:read', 'job:read']],
-    denormalizationContext: ['groups' => ['company:write', 'recruiter:write'], 'enable_max_depth' => true],
-    mercure: false
-)]
-#[ApiResource(
-    operations: [
-        new Get(),
-        new Post(
-            name: 'add_collaborator',
-            uriTemplate: '/companies/{id}/add-collaborator',
-            controller: CompaniesController::class
-        )
-    ],
-    normalizationContext: ['groups' => ['company:read', 'job:read']],
+    normalizationContext: ['groups' => ['company:read', 'job:read', 'user:read']],
     denormalizationContext: ['groups' => ['company:write', 'recruiter:write'], 'enable_max_depth' => true],
     mercure: false
 )]
