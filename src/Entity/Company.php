@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\BackOffice\CompaniesController;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,6 +37,19 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Get(),
         new GetCollection(),
+    ],
+    normalizationContext: ['groups' => ['company:read', 'job:read']],
+    denormalizationContext: ['groups' => ['company:write', 'recruiter:write'], 'enable_max_depth' => true],
+    mercure: false
+)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new Post(
+            name: 'add_collaborator',
+            uriTemplate: '/companies/{id}/add-collaborator',
+            controller: CompaniesController::class
+        )
     ],
     normalizationContext: ['groups' => ['company:read', 'job:read']],
     denormalizationContext: ['groups' => ['company:write', 'recruiter:write'], 'enable_max_depth' => true],

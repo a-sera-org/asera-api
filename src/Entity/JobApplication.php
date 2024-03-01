@@ -76,8 +76,8 @@ class JobApplication
     private ?string $devise = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['job:application:read', 'job:application:write'])]
-    private ?bool $isRejected = null;
+    #[Groups(['job:application:read', 'job:application:write', 'job:application:read'])]
+    private ?int $status = 1;
 
     public function getId(): ?string
     {
@@ -164,18 +164,6 @@ class JobApplication
     public function setDevise(?string $devise): static
     {
         $this->devise = $devise;
-
-        return $this;
-    }
-
-    public function isIsRejected(): ?bool
-    {
-        return $this->isRejected;
-    }
-
-    public function setIsRejected(?bool $isRejected): static
-    {
-        $this->isRejected = $isRejected;
 
         return $this;
     }
