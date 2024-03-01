@@ -57,37 +57,6 @@ class CompaniesController extends AbstractController
         return $this->render('backoffice/companies/company_details.html.twig', ['company' => $company]);
     }
 
-    #[Route('/companies/{id}/add-collaborator', name: 'add_collaborator', methods: 'POST')]
-    public function addCollaborator(Request $request, Company $company): Response
-    {
-        $data = json_decode($request->getContent(), true);
-        $collaborator = $this->entityManager->getRepository(User::class)->find($data['id']);
-
-        if ($collaborator) {
-            $company->addCollaborator($collaborator);
-            $this->entityManager->flush();
-
-            $this->addFlash('success', 'Ajout de collaborateur dans l\'entreprise éffectué avec success !');
-
-            return $this->redirectToRoute('admin_company_list');
-        }
-
-        $this->addFlash('erreur', 'Echec d\'ajout de collaborateur dans l\'entreprise !');
-
-        return $this->redirectToRoute('admin_company_list');
-    }
-
-    #[Route('/companies/{id}/remove-collaborator/{collaboratorId}', name: 'remove_collaborator', methods: 'DELETE')]
-    public function removeCollaborator(Company $company, User $collaborator): Response
-    {
-        $company->removeCollaborator($collaborator);
-        $this->entityManager->flush();
-
-        $this->addFlash('success', 'Collaborateur supprimé dans l\'entreprise avec success !');
-
-        return $this->redirectToRoute('admin_company_list');
-    }
-
     #[Route('/remove/contact/{user}/{company}', name: 'remove_user')]
     public function removeContact(User $user, Company $company)
     {

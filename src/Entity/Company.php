@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(),
         new GetCollection(),
     ],
-    normalizationContext: ['groups' => ['company:read', 'job:read', 'user:read']],
+    normalizationContext: ['groups' => ['company:read', 'job:read']],
     denormalizationContext: ['groups' => ['company:write', 'recruiter:write'], 'enable_max_depth' => true],
     mercure: false
 )]
