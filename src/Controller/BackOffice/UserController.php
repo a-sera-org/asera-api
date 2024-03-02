@@ -15,6 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Omines\DataTablesBundle\DataTableFactory;
+use Omines\DataTablesBundle\Column\TextColumn;
+use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
+
+
+
 
 
 
@@ -26,8 +32,30 @@ class UserController extends AbstractController
     }
 
     #[Route('/list', name: 'list')]
-    public function listAllUsers(Request $request): Response
-    {
+    public function listAllUsers(Request $request, DataTableFactory $dataTableFactory): Response
+    {        
+        // Créez une instance DataTable à partir du factory
+        $dataTable = $dataTableFactory->create()
+        ->add('id', TextColumn::class, ['label' => 'ID'])
+        ->add('username', TextColumn::class, ['label' => 'Username'])
+        ->add('firstname', TextColumn::class, ['label' => 'Firstname'])
+        ->add('lastname', TextColumn::class, ['label' => 'Lastname'])
+        ->add('contact.email', TextColumn::class, ['label' => 'Email'])
+        ->add('contact.phones', TextColumn::class, ['label' => 'Phones'])
+        ->add('sex', TextColumn::class, ['label' => 'Sex'])
+        // Ajoutez d'autres colonnes selon vos besoins
+        ->createAdapter(ORMAdapter::class, [
+            'entity' => User::class,
+        ]);
+
+        // Gérez la requête DataTable
+        $dataTable->handleRequest($request);
+
+        // Si la requête DataTable est prête à être rendue
+        if ($dataTable->isCallback()) {
+            return $dataTable->getResponse();
+        }
+
         $query = $this->userRepository->findAllUsers();
         $paginator = $this->paginator->paginate($query, $request->query->getInt('page', 1));
 
@@ -36,6 +64,7 @@ class UserController extends AbstractController
             [
                 'paginator' => $paginator,
                 'menu_user' => true,
+                'datatable' => $dataTable,
             ]
         );
     }
