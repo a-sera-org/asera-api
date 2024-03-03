@@ -52,6 +52,17 @@ enum JobAppliStatus: int
         return $this->value;
     }
 
+    #[Groups('job_appli_status:read')]
+    public function getDescription(): string
+    {
+        return match ($this) {
+            self::RECEIVED => 'Reçu',
+            self::IN_PROCESS => 'En cours',
+            self::REJECTED => 'Rejeté',
+            self::ACCEPTED => 'Accepté'
+        };
+    }
+
     public static function getCases(): array
     {
         return self::cases();
