@@ -14,7 +14,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use App\Controller\BackOffice\CompaniesController;
+use App\Controller\Api\ApiCompanyController;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,6 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(
             security: "is_granted('IS_AUTHENTICATED_FULLY')",
             uriTemplate: "companies/{companyId}/remove-collaborator/{collaboratorId}",
+            controller: ApiCompanyController::class,
             uriVariables: [
                 "companyId" => new Link(fromClass: Company::class),
                 "collaboratorId" => new Link(fromClass: User::class, toProperty: 'collaborators'),

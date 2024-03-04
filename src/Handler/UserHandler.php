@@ -7,7 +7,6 @@
 
 namespace App\Handler;
 
-use App\Entity\Company;
 use App\Entity\Contact;
 use App\Entity\Enum\UserRoleType;
 use App\Entity\User;
@@ -55,13 +54,5 @@ class UserHandler
             $normalizer->denormalize($payload, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
         }
         $this->entityManager->flush();
-    }
-
-    public function addCollaborator(User $user, Company $company): User{
-        $user->setCompany($company);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        return $user;
     }
 }
