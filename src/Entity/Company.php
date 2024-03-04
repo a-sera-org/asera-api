@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
@@ -32,13 +33,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Delete(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
+        new Delete(
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            uriTemplate: "companies/{companyId}/remove-collaborator/{collaboratorId}",
+            uriVariables: [
+                "companyId" => new Link(fromClass: Company::class),
+                "collaboratorId" => new Link(fromClass: User::class, toProperty: 'collaborators'),
+            ]
+        ),
         new Put(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Patch(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
-        new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')", uriTemplate: "/companies/{id}/add-collaborator"),
-        new Delete(security: "is_granted('IS_AUTHENTICATED_FULLY')", uriTemplate: "/companies/{id}/remove-collaborator/{collaboratorId}"),
         new Get(),
-        new GetCollection(),
+        new GetCollection()
     ],
     normalizationContext: ['groups' => ['company:read', 'job:read']],
     denormalizationContext: ['groups' => ['company:write', 'recruiter:write'], 'enable_max_depth' => true],
