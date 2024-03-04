@@ -6,3 +6,10 @@ controllers:
 
 api_login_check:
     path: /api/login_check
+add_collaborator:
+    path: /companies/{id}/add-collaborator
+    methods: ['POST']
+    defaults:
+        _controller: App\Controller\CompaniesController::addCollaborator
+        _api_resource_class: App\Entity\Company
+        _api_operation_name: add_collaborator

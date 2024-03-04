@@ -40,6 +40,22 @@ class UsersTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(201);
     }
 
+    public function testCreateRecruiter(): void
+    {
+        static::createClient()->request('POST', '/api/register/recruiter', [
+            'json' => [
+                'lastname' => 'Kévin',
+                'username' => self::USERNAME,
+                'plainPassword' => self::PASSWORD,
+            ],
+            'headers' => [
+                'Content-Type' => 'application/ld+json',
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(201);
+    }
+
     /**
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
