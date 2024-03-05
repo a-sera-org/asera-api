@@ -18,7 +18,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: JobApplicationRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['job:application:read']],
+    normalizationContext: ['groups' => ['job:application:read', 'company:read']],
     denormalizationContext: ['groups' => ['job:application:write']],
     security: "is_granted('IS_AUTHENTICATED_FULLY')"
 )]
