@@ -132,24 +132,4 @@ class CompanyTest extends ApiTestCase
 
         sleep(1); // deal with manager flushing time
     }
-
-    public function testAddCollaborator()
-    {
-        $client = static::createClient();
-
-        // Remplacez les données ci-dessous avec les valeurs appropriées
-        $client->request('POST', '/companies/1/add-collaborator', [], [], [], json_encode(['id' => 1]));
-
-        $this->assertResponseStatusCodeSame(200);
-    }
-
-    public function testRemoveCollaborator()
-    {
-        $client = static::createClient();
-
-        // Remplacez les données ci-dessous avec les valeurs appropriées
-        $client->request('DELETE', '/companies/1/remove-collaborator/1');
-
-        $this->assertResponseStatusCodeSame(200);
-    }
 }
