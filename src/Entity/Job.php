@@ -36,8 +36,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Put(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Patch(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
-        new Get(),
-        new GetCollection(),
+        new Get(security: null),
+        new GetCollection(security: null),
     ],
     normalizationContext: ['groups' => ['job:read']],
     denormalizationContext: ['groups' => ['job:write']]
