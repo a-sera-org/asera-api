@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Request Password Reset{% endblock %}
+
+{% block body %}
+    <h1>Request Password Reset</h1>
+
+    {% if app.request.method == 'POST' %}
+        {% if app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ app.flashes('success')|first }}
+            </div>
+        {% endif %}
+
+        {% if app.flashes('error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ app.flashes('error')|first }}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <form method="post">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

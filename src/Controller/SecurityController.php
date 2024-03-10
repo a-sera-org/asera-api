@@ -7,34 +7,33 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
     private $userRepository;
-    private $passwordHasher;
     private $entityManager;
-    private $tokenGenerator;
+    private $passwordHasher;
     private $mailer;
 
-    public function __construct(UserRepository $userRepository,
-     EntityManagerInterface $entityManager,
-      UserPasswordHasherInterface $passwordHasher,
-      TokenGeneratorInterface $tokenGenerator,
+    public function __construct(
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher,
         MailerInterface $mailer
-        )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
-        $this->tokenGenerator = $tokenGenerator;
         $this->mailer = $mailer;
-      
     }
 
     #[Route(path: '/login', name: 'app_login')]
@@ -59,65 +58,45 @@ class SecurityController extends AbstractController
     #[Route('/reset-password', name: 'reset_password')]
     public function resetPasswordPage(): Response
     {
-        return $this->render('security/reset_password.html.twig');
+        return $this->render('security/request_password_reset.html.twig');
     }
 
     #[Route(path: '/reset-password-submit', name: 'reset_password_submit', methods: ['POST'])]
-    public function resetPasswordSubmit(Request $request): Response
+    public function resetPasswordSubmit(Request $request, TokenGeneratorInterface $tokenGenerator, SessionInterface $session): Response
     {
-        $username = $request->request->get('username');
-        $newPassword = $request->request->get('new_password');
-        $confirmPassword = $request->request->get('confirm_password');
-
-        $user = $this->userRepository->findByUsername($username);
-
-        if (!$user) {
-            throw $this->createNotFoundException('User not found.');
-        }
-
-        if ($newPassword !== $confirmPassword) {
-            return new Response('New password and confirm password do not match.');
-        }
-
-        $hashedPassword = $this->passwordHasher->hashPassword($user, $newPassword);
-        $user->setPassword($hashedPassword);
-        $this->entityManager->flush();
-
-        return $this->redirectToRoute('app_login');
-    }
-
-    
-    public function resetPassword(string $email)
-    {
+        $email = $request->request->get('email');
         $user = $this->userRepository->findOneByEmail($email);
 
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
+        if ($user) {
+            // Generate a token for password reset
+            $token = $tokenGenerator->generateToken();
+            // Store the token in the session
+            $session->set('reset_token', $token);
+
+            // Send password reset email
+            $resetPasswordUrl = $this->generateUrl('reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+            $email = (new Email())
+                ->from(new Address('hei.njaina.2@gmail.com', 'Asera app'))
+                ->to($email)
+                ->subject('Password Reset')
+                ->html($this->renderView('security/reset_password_email.html.twig', [
+                    'resetPasswordUrl' => $resetPasswordUrl,
+                ]));
+
+            $this->mailer->send($email);
+            $this->addFlash('success', 'Password reset link has been sent to your email.');
+
+            return $this->redirectToRoute('password_reset_requested');
         }
 
-        // Generate a password reset token
-        $resetToken = Uuid::v4()->toRfc4122();
+        $this->addFlash('error', 'Email not found.');
 
-        // Set the reset token and expiration on the user entity
-        $user->setResetToken($resetToken);
-        $user->setResetTokenExpiresAt(new \DateTime('+1 hour'));
+        return $this->redirectToRoute('reset_password');
+    }
 
-        // Save the changes to the database
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();
-
-        // Send an email with the password reset link
-        $resetUrl = $this->generateUrl('password_reset', ['token' => $resetToken], UrlGeneratorInterface::ABSOLUTE_URL);
-        $emailBody = 'To reset your password, click on the following link: ' . $resetUrl;
-
-        $email = (new Email())
-            ->from('your_email@example.com')
-            ->to($user->getContact()->getEmail())
-            ->subject('Password Reset')
-            ->text($emailBody);
-
-        $this->mailer->send($email);
-
-        return new Response('Password reset email sent');
+    #[Route('/password-reset-requested', name: 'password_reset_requested')]
+    public function passwordResetRequested(): Response
+    {
+        return $this->render('security/password_reset_requested.html.twig');
     }
 }
