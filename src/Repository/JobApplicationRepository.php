@@ -21,28 +21,28 @@ class JobApplicationRepository extends ServiceEntityRepository
         parent::__construct($registry, JobApplication::class);
     }
 
-//    /**
-//     * @return JobApplication[] Returns an array of JobApplication objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('j')
-//            ->andWhere('j.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('j.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return JobApplication[] Returns an array of JobApplication objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('j')
+    //            ->andWhere('j.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('j.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?JobApplication
-//    {
-//        return $this->createQueryBuilder('j')
-//            ->andWhere('j.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?JobApplication
+    //    {
+    //        return $this->createQueryBuilder('j')
+    //            ->andWhere('j.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

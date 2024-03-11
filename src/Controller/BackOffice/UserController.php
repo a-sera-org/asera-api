@@ -11,18 +11,13 @@ use App\Entity\User;
 use App\Handler\UserHandler;
 use App\Repository\UserRepository;
 use App\Utils\Paginator;
+use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
+use Omines\DataTablesBundle\Column\TextColumn;
+use Omines\DataTablesBundle\DataTableFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Omines\DataTablesBundle\DataTableFactory;
-use Omines\DataTablesBundle\Column\TextColumn;
-use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
-
-
-
-
-
 
 #[Route('/admin/users', name: 'admin_user_')]
 class UserController extends AbstractController
@@ -33,20 +28,20 @@ class UserController extends AbstractController
 
     #[Route('/list', name: 'list')]
     public function listAllUsers(Request $request, DataTableFactory $dataTableFactory): Response
-    {        
+    {
         // Créez une instance DataTable à partir du factory
         $dataTable = $dataTableFactory->create()
-        ->add('id', TextColumn::class, ['label' => 'ID'])
-        ->add('username', TextColumn::class, ['label' => 'Username'])
-        ->add('firstname', TextColumn::class, ['label' => 'Firstname'])
-        ->add('lastname', TextColumn::class, ['label' => 'Lastname'])
-        ->add('contact.email', TextColumn::class, ['label' => 'Email'])
-        ->add('contact.phones', TextColumn::class, ['label' => 'Phones'])
-        ->add('sex', TextColumn::class, ['label' => 'Sex'])
-        // Ajoutez d'autres colonnes selon vos besoins
-        ->createAdapter(ORMAdapter::class, [
-            'entity' => User::class,
-        ]);
+            ->add('id', TextColumn::class, ['label' => 'ID'])
+            ->add('username', TextColumn::class, ['label' => 'Username'])
+            ->add('firstname', TextColumn::class, ['label' => 'Firstname'])
+            ->add('lastname', TextColumn::class, ['label' => 'Lastname'])
+            ->add('contact.email', TextColumn::class, ['label' => 'Email'])
+            ->add('contact.phones', TextColumn::class, ['label' => 'Phones'])
+            ->add('sex', TextColumn::class, ['label' => 'Sex'])
+            // Ajoutez d'autres colonnes selon vos besoins
+            ->createAdapter(ORMAdapter::class, [
+                'entity' => User::class,
+            ]);
 
         // Gérez la requête DataTable
         $dataTable->handleRequest($request);
