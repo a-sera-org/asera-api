@@ -15,43 +15,52 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[
     ApiResource(
-        normalizationContext: ['groups' => ['job_type:read']]
+        normalizationContext: ['groups' => ['job_appli_status:read']]
     ),
     GetCollection(
-        uriTemplate: '/enum/job_types',
+        uriTemplate: '/enum/job_appli_status',
         openapi: new \ApiPlatform\OpenApi\Model\Operation(
             summary: 'Enumerates the work contract model',
             description: 'Return all available contract model, value is not persist anywhere !'
         ),
-        provider: JobType::class.'::getCases'
+        provider: JobAppliStatus::class.'::getCases'
     ),
     Get(
-        uriTemplate: '/enum/job_types/{id}',
+        uriTemplate: '/enum/job_appli_status/{id}',
         openapi: new \ApiPlatform\OpenApi\Model\Operation(
             summary: 'Return detailed contract value',
             description: 'Return detailed contract value passed in the URL !'
         ),
-        provider: JobType::class.'::getCase'
+        provider: JobAppliStatus::class.'::getCase'
     ),
 ]
-enum JobType: int
+enum JobAppliStatus: int
 {
-    case CDI = 1;
-    case CDD = 2;
-    case CONSULTANT = 3;
-    case FREELANCE = 4;
-    case STAGE = 5;
-    case ALTERNANT = 6;
+    case RECEIVED = 1;
+    case IN_PROCESS = 2;
+    case REJECTED = 3;
+    case ACCEPTED = 4;
 
     public function getId(): string
     {
         return $this->name;
     }
 
-    #[Groups('job_type:read')]
+    #[Groups('job_appli_status:read')]
     public function getValue(): int
     {
         return $this->value;
+    }
+
+    #[Groups('job_appli_status:read')]
+    public function getDescription(): string
+    {
+        return match ($this) {
+            self::RECEIVED => 'Reçu',
+            self::IN_PROCESS => 'En cours',
+            self::REJECTED => 'Rejeté',
+            self::ACCEPTED => 'Accepté'
+        };
     }
 
     public static function getCases(): array

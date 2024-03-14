@@ -62,15 +62,15 @@ enum JobCategory: int
         return self::cases();
     }
 
-    #[Groups('user_role:read')]
+    #[Groups('job_category:read')]
     public function getDescription(): string
     {
         return match ($this) {
-            self::ADMINISTRATION => 'Pour les roles administratif, genre CTO/Directeur Technique etc ...',
+            self::ADMINISTRATION => 'Administration, CTO/Directeur Technique etc ...',
             self::ADMIN_SYS => 'Administrateur de système et réseau',
             self::COMMUNITY_MANAGER => 'Community manager',
             self::PRODUCT_OWNER => 'Chef de projet ou Product owner',
-            self::DEVOPS => 'Devops',
+            self::DEVOPS => 'DevOps',
             self::IT_HARDWARE => 'Help Desk, etc ...',
             self::SOFTWARE_ENGINEER => 'Dev, Lead Tech etc ...',
             self::AI => 'Artificial Intelligence Engineer',

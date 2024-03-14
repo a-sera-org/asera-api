@@ -5,14 +5,17 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Controller\Api\ApiRecruiterController;
+use App\Controller\Api\ApiUserCollaboratorController;
 use App\Controller\Api\ApiUserController;
 use App\Entity\Traits\TimestampableEntity;
 use App\State\UserPasswordHasher;
@@ -46,6 +49,15 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
             denormalizationContext: ['groups' => ['recruiter:write']],
             security: null,
             name: 'register_recruiter',
+            processor: UserPasswordHasher::class
+        ),
+        new Post(
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            uriTemplate: "/add-collaborator/{companyId}",
+            uriVariables: [
+                "companyId" => new Link(fromClass: Company::class, toProperty: 'company')
+            ],
+            controller: ApiUserCollaboratorController::class,
             processor: UserPasswordHasher::class
         ),
         new Get(security: "is_granted('ROLE_ADMIN') or object.getOwner() == user"),
@@ -132,6 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     private ?bool $isEnabled = true;
 
+    #[ApiProperty]
     #[ORM\ManyToOne(inversedBy: 'collaborators')]
     private ?Company $company = null;
 
