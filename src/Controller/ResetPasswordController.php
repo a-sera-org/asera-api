@@ -3,57 +3,28 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class SecurityController extends AbstractController
+class ResetPasswordController extends AbstractController
 {
   private $userRepository;
-  private $entityManager;
-  private $passwordHasher;
   private $mailer;
 
-  public function __construct(
-    UserRepository $userRepository,
-    EntityManagerInterface $entityManager,
-    UserPasswordHasherInterface $passwordHasher,
-    MailerInterface $mailer
-  ) {
+  public function __construct(UserRepository $userRepository, MailerInterface $mailer)
+  {
     $this->userRepository = $userRepository;
-    $this->entityManager = $entityManager;
-    $this->passwordHasher = $passwordHasher;
     $this->mailer = $mailer;
   }
 
-  #[Route(path: '/login', name: 'app_login')]
-  public function login(AuthenticationUtils $authenticationUtils): Response
-  {
-    $error = $authenticationUtils->getLastAuthenticationError();
-    $lastUsername = $authenticationUtils->getLastUsername();
-
-    return $this->render('security/login.html.twig', [
-      'last_username' => $lastUsername,
-      'error' => $error,
-      'reset_password_route' => $this->generateUrl('reset_password'),
-    ]);
-  }
-
-  #[Route(path: '/logout', name: 'app_logout')]
-  public function logout(): void
-  {
-    throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-  }
-  #[Route('/reset-password', name: 'reset_password_route')]
+  #[Route('/reset-password', name: 'reset_password')]
   public function resetPassword(Request $request, SessionInterface $session, UrlGeneratorInterface $urlGenerator): Response
   {
     $email = $request->request->get('email');
@@ -110,6 +81,4 @@ class SecurityController extends AbstractController
 
     return $this->redirectToRoute('reset_password_form');
   }
-
-
 }

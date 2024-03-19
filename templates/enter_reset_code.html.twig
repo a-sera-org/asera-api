@@ -1,0 +1,16 @@
+{# templates/enter_reset_code.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Reset Code</title>
+</head>
+<body>
+    <form action="{{ path('enter_reset_code') }}" method="post">
+        <label for="reset_code">Enter Reset Code:</label>
+        <input type="text" id="reset_code" name="reset_code">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
