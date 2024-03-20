@@ -76,10 +76,10 @@ class Job
     #[Groups(['job:read', 'job:write', 'job:application:read'])]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::FLOAT,nullable: true)]
     #[Groups(['job:read', 'job:write', 'job:application:read'])]
     #[Assert\Type(type: 'digit', message: 'La valeur doit être une chaîne de nombres positifs')]
-    private ?string $salary = '0';
+    private ?float $salary = 0;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['job:read', 'job:write', 'job:application:read'])]
@@ -171,12 +171,12 @@ class Job
         return $this;
     }
 
-    public function getSalary(): ?string
+    public function getSalary(): ?float
     {
         return $this->salary;
     }
 
-    public function setSalary(?string $salary): static
+    public function setSalary(?float $salary): static
     {
         $this->salary = $salary;
 
