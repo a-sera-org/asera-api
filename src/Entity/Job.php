@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter as FilterDateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
@@ -51,6 +53,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 #[ApiFilter(NumericFilter::class, properties: ['workType', 'contract', 'jobCategory'])]
 #[ApiFilter(RangeFilter::class, properties: ['salary'])]
+#[ApiFilter(FilterDateFilter::class, properties: ['createdAt'])]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 class Job
 {
