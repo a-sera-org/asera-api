@@ -8,7 +8,7 @@ use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 
 // Configuration du transport SMTP avec MailCatcher
-#$transport = Transport::fromDsn('smtp://localhost:1025');
+// $transport = Transport::fromDsn('smtp://localhost:1025');
 
 // Créer une instance du mailer en injectant le transport
 
