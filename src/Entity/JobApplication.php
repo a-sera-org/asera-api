@@ -18,7 +18,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: JobApplicationRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['job:application:read']],
+    normalizationContext: ['groups' => ['job:application:read', 'company:read']],
     denormalizationContext: ['groups' => ['job:application:write']],
     security: "is_granted('IS_AUTHENTICATED_FULLY')"
 )]
@@ -77,7 +77,7 @@ class JobApplication
 
     #[ORM\Column(nullable: true)]
     #[Groups(['job:application:read', 'job:application:write'])]
-    private ?bool $isRejected = null;
+    private ?int $status = 1;
 
     public function getId(): ?string
     {
@@ -168,14 +168,14 @@ class JobApplication
         return $this;
     }
 
-    public function isIsRejected(): ?bool
+    public function getStatus(): ?int
     {
-        return $this->isRejected;
+        return $this->status;
     }
 
-    public function setIsRejected(?bool $isRejected): static
+    public function setStatus(?int $status): static
     {
-        $this->isRejected = $isRejected;
+        $this->status = $status;
 
         return $this;
     }
