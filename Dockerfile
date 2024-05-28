@@ -2,31 +2,31 @@
 
 # Adapted from https://github.com/dunglas/symfony-docker
 
-
 # Versions
 # hadolint ignore=DL3007
 FROM dunglas/frankenphp:latest-alpine AS frankenphp_upstream
 FROM composer/composer:2-bin AS composer_upstream
-
-
-# The different stages of this Dockerfile are meant to be built into separate images
-# https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
-# https://docs.docker.com/compose/compose-file/#target
-
 
 # Base FrankenPHP image
 FROM frankenphp_upstream AS frankenphp_base
 
 WORKDIR /app
 
-# persistent / runtime deps
+# Persistent / runtime dependencies
 # hadolint ignore=DL3018
 RUN apk add --no-cache \
 		acl \
 		file \
 		gettext \
 		git \
+		ruby \
+		ruby-dev \
+		build-base \
 	;
+
+# Install Ruby and gem
+RUN gem update --system && \
+    gem install mailcatcher
 
 RUN set -eux; \
     install-php-extensions \
@@ -49,7 +49,7 @@ COPY --link frankenphp/Caddyfile /etc/caddy/Caddyfile
 
 ENTRYPOINT ["docker-entrypoint"]
 
-# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+# Composer settings
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
@@ -58,7 +58,7 @@ COPY --from=composer_upstream --link /composer /usr/bin/composer
 HEALTHCHECK --start-period=60s CMD curl -f http://localhost:2019/metrics || exit 1
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
 
-# Dev FrankenPHP image
+# Development environment settings
 FROM frankenphp_base AS frankenphp_dev
 
 ENV APP_ENV=dev XDEBUG_MODE=off
@@ -75,7 +75,7 @@ COPY --link frankenphp/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
-# Prod FrankenPHP image
+# Production environment settings
 FROM frankenphp_base AS frankenphp_prod
 
 ENV APP_ENV=prod
@@ -86,12 +86,12 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY --link frankenphp/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
 COPY --link frankenphp/worker.Caddyfile /etc/caddy/worker.Caddyfile
 
-# prevent the reinstallation of vendors at every changes in the source code
+# Prevent the reinstallation of vendors at every changes in the source code
 COPY --link composer.* symfony.* ./
 RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
-# copy sources
+# Copy sources
 COPY --link . ./
 RUN rm -Rf frankenphp/
 
@@ -101,3 +101,4 @@ RUN set -eux; \
 	composer dump-env prod; \
 	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; sync;
+

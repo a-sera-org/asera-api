@@ -1,6 +1,7 @@
 version: "3.4"
 
 services:
+  # PHP Service for Symfony application
   php:
     image: ${IMAGES_PREFIX:-}app-php
     depends_on:
@@ -14,6 +15,7 @@ services:
       retries: 3
       start_period: 2m
     environment:
+      # Define environment variables for the PHP service
       SERVER_NAME: ${SERVER_NAME:-localhost}, localhost:8080
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
@@ -24,9 +26,11 @@ services:
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost:8080}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
     volumes:
+      # Define volumes for the PHP service
       - caddy_data:/data
       - caddy_config:/config
     ports:
+      # Define ports for the PHP service
       # HTTP
       - target: 8080
         published: ${HTTP_PORT:-8080}
@@ -40,32 +44,35 @@ services:
         published: ${HTTP3_PORT:-443}
         protocol: udp
 
-###> doctrine/doctrine-bundle ###
+  # Database service
   database:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
     container_name: asera-db
     environment:
+      # Define environment variables for the database service
       - POSTGRES_DB=${POSTGRES_DB:-asera-db}
-      # You should definitely change the password in production
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-aserapass}
       - POSTGRES_USER=${POSTGRES_USER:-aseraadmin}
     volumes:
+      # Define volumes for the database service
       - db_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
-        # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./api/docker/db/data:/var/lib/postgresql/data
-###< doctrine/doctrine-bundle ###
+      # Define ports for the database service
+      - "5433:5432"
 
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+  # Mailcatcher service
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      # Define ports for the Mailcatcher service
+      # Mailcatcher web interface
+      - "1080:1080"
+      # Mailcatcher SMTP port
+      - "1025:1025"
 
+# Define named volumes used by the services
 volumes:
   caddy_data:
   caddy_config:
-###> doctrine/doctrine-bundle ###
   db_data:
-###< doctrine/doctrine-bundle ###
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+
