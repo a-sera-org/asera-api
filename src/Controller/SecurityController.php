@@ -82,7 +82,7 @@ class SecurityController extends AbstractController
                     $mailer = new Mailer($transport);
                     $mailer->send($email);
 
-                    $this->addFlash('success', 'Un lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.');
+                    #$this->addFlash('success', 'Un lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.');
 
                     return $this->redirectToRoute('reset_password_confirm');
                 } else {
