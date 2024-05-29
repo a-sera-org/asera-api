@@ -58,7 +58,7 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       # Define ports for the database service
-      - "5433:5432"
+      - "5432:5432"
 
   # Mailcatcher service
   mailcatcher:
