@@ -26,7 +26,7 @@ RUN apk add --no-cache \
 
 # Install Ruby and gem
 RUN gem update --system && \
-    gem install mailcatcher
+    gem install mailcatcher:0.8.0
 
 RUN set -eux; \
     install-php-extensions \
