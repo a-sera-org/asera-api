@@ -19,11 +19,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ApiUserCollaboratorController extends AbstractController
 {
     public function __construct(
-        private readonly UserHandler $userHandler,
+        private readonly UserHandler $userHandler, 
         private CompanyRepository $companyRepository,
         private EntityManagerInterface $entityManager,
         private SerializerInterface $serializer
-    ) {
+        )
+    {
     }
 
     public function __invoke(User $user, $companyId): User

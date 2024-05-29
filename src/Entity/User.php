@@ -53,9 +53,9 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
         ),
         new Post(
             security: "is_granted('IS_AUTHENTICATED_FULLY')",
-            uriTemplate: '/add-collaborator/{companyId}',
+            uriTemplate: "/add-collaborator/{companyId}",
             uriVariables: [
-                'companyId' => new Link(fromClass: Company::class, toProperty: 'company'),
+                "companyId" => new Link(fromClass: Company::class, toProperty: 'company')
             ],
             controller: ApiUserCollaboratorController::class,
             processor: UserPasswordHasher::class

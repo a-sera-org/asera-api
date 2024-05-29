@@ -35,11 +35,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
         new Delete(
             security: "is_granted('IS_AUTHENTICATED_FULLY')",
-            uriTemplate: 'companies/{companyId}/remove-collaborator/{collaboratorId}',
+            uriTemplate: "companies/{companyId}/remove-collaborator/{collaboratorId}",
             controller: ApiCompanyController::class,
             uriVariables: [
-                'companyId' => new Link(fromClass: Company::class),
-                'collaboratorId' => new Link(fromClass: User::class, toProperty: 'collaborators'),
+                "companyId" => new Link(fromClass: Company::class),
+                "collaboratorId" => new Link(fromClass: User::class, toProperty: 'collaborators'),
             ]
         ),
         new Put(security: "is_granted('IS_AUTHENTICATED_FULLY')"),
